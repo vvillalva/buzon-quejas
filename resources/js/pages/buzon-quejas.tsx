@@ -1,5 +1,12 @@
+import Header from "@/components/header";
+
 export default function BuzonQuejas() {
   return (
-    <div>buzon-quejas</div>
+    <main>
+      <Header />
+      <section className="formulario-buzon">
+
+      </section>
+    </main>
   )
 }
