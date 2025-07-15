@@ -1,11 +1,27 @@
+import FormularioBuzon from "@/components/buzon/formulario-buzon";
 import Header from "@/components/header";
 
 export default function BuzonQuejas() {
   return (
     <main>
       <Header />
-      <section className="formulario-buzon">
-
+      <section className="formulario-buzon flex flex-col px-4 lg:px-[132px] my-10 gap-8">
+        <div className="encabezados flex flex-col gap-4">
+          <div className="titulo flex flex-row items-center">
+            <div className="flex flex-row">
+              {/* Por si se agrega icono aun lado */}
+              <h1 className="font-semibold text-4xl text-[#96559B]">Buzón de quejas</h1>
+            </div>
+            <hr className="mx-6 h-12 w-px bg-[#BEB9B9] border-0"/>
+            <p className="text-[#434343] font-light text-base">Unidad de Igualdad de Genero</p>
+          </div>
+          <hr className="bg-[#F2EDED]"/>
+          <p className="text-sm text-[#4E4E4E]">Este buzón es un espacio seguro donde puedes reportar cualquier situación de violencia de género que hayas sufrido o presenciado. Toda la información se manejará con estricta confidencialidad y se dará seguimiento conforme a la normativa vigente.</p>
+          <p className="text-sm text-[#96559B] font-semibold italic">*Tus datos personales son opcionales. Si prefieres mantener el anonimato, puedes omitir los campos de identificación. Tu seguridad y privacidad son nuestra prioridad.</p>
+        </div>
+        <div className="formulario">
+          <FormularioBuzon />
+        </div>
       </section>
     </main>
   )
