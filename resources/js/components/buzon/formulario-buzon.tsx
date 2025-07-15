@@ -13,7 +13,6 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
-
 export default function FormularioBuzon() {
   const form = useForm({
     defaultValues: {
@@ -29,6 +28,7 @@ export default function FormularioBuzon() {
     // Aquí harás el POST a tu endpoint de Laravel (puedes usar Inertia.post, fetch, axios, etc)
     console.log(data);
   };
+
   return (
     <div className="w-full ">
       <Form {...form}>
@@ -88,6 +88,7 @@ export default function FormularioBuzon() {
                 <FormLabel>Número telefónico*</FormLabel>
                 <FormControl>
                   <Input
+                    autoComplete="tel"
                     placeholder="Ej. 5512345678"
                     type="tel"
                     maxLength={10}
@@ -110,27 +111,27 @@ export default function FormularioBuzon() {
             control={form.control}
             name="tipoViolencia"
             rules={{
-              required: "El tipo de violencia es obligatorio para la queja, por favor selecciona una opción.",
+              required: "El tipo de violencia es obligatorio para la queja.",
             }}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tipo de Violencia*</FormLabel>
+                <FormLabel htmlFor="tipoViolencia">Tipo de Violencia*</FormLabel>
                 <FormControl>
                   <Select
-                    value={field.value || ""}                   // <- importante para mantener el valor
-                    onValueChange={field.onChange}              // <- así se actualiza en React Hook Form
+                    name="tipoViolencia"
+                    value={field.value || ""}
+                    onValueChange={field.onChange}
                   >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecciona" />
+                    <SelectTrigger className="w-full" id="tipoViolencia">
+                      <SelectValue placeholder="Selecciona una opción" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Opciones</SelectLabel>
-                        <SelectItem value="apple">Apple</SelectItem>
-                        <SelectItem value="banana">Banana</SelectItem>
-                        <SelectItem value="blueberry">Blueberry</SelectItem>
-                        <SelectItem value="grapes">Grapes</SelectItem>
-                        <SelectItem value="pineapple">Pineapple</SelectItem>
+                        <SelectItem value="fisica">Física</SelectItem>
+                        <SelectItem value="psicologica">Psicológica</SelectItem>
+                        <SelectItem value="sexual">Sexual</SelectItem>
+                        <SelectItem value="economica">Económica</SelectItem>
+                        <SelectItem value="otra">Otra</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

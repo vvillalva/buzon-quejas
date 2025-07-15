@@ -7,12 +7,12 @@ export default function BuzonQuejas() {
       <Header />
       <section className="formulario-buzon flex flex-col px-4 lg:px-[132px] my-10 gap-8">
         <div className="encabezados flex flex-col gap-4">
-          <div className="titulo flex flex-row items-center">
+          <div className="titulo flex flex-col gap-2 lg:gap-0 lg:flex-row lg:items-center">
             <div className="flex flex-row">
               {/* Por si se agrega icono aun lado */}
               <h1 className="font-semibold text-4xl text-[#96559B]">Buzón de quejas</h1>
             </div>
-            <hr className="mx-6 h-12 w-px bg-[#BEB9B9] border-0"/>
+            <hr className="mx-6 h-12 w-px bg-[#BEB9B9] border-0 hidden lg:flex"/>
             <p className="text-[#434343] font-light text-base">Unidad de Igualdad de Genero</p>
           </div>
           <hr className="bg-[#F2EDED]"/>
