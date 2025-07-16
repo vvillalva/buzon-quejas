@@ -7,6 +7,8 @@ Route::get('/', function () {
     return Inertia::render('buzon-quejas');
 })->name('buzon-quejas');
 
+Route::post('/quejas', [QuejaController::class, 'createQueja']);
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
