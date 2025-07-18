@@ -12,7 +12,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function ListaOpciones() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title="Catalogo" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
                 Lista de opciones dentro de un catalogo
             </div>
