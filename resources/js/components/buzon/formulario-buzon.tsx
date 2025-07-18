@@ -164,7 +164,7 @@ export default function FormularioBuzon() {
               </FormItem>
             )}
           />
-          <Button type="submit" className=" bg-[#96559B] hover:bg-[#c16fc6]">Enviar</Button>
+          <Button type="submit" className=" bg-[#96559B] hover:bg-[#c16fc6] dark:text-white">Enviar</Button>
         </form>
       </Form>
     </div>

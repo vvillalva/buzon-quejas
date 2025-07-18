@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export type Appearance = 'light' | 'dark' | 'system';
 
@@ -39,7 +39,7 @@ const handleSystemThemeChange = () => {
 };
 
 export function initializeTheme() {
-    const savedAppearance = (localStorage.getItem('appearance') as Appearance) || 'light'; //Aqui iba "system"
+    const savedAppearance = (localStorage.getItem('appearance') as Appearance) || 'system';
 
     applyTheme(savedAppearance);
 
@@ -48,27 +48,26 @@ export function initializeTheme() {
 }
 
 export function useAppearance() {
-    const [appearance, setAppearance] = useState<Appearance>('light'); // Aqui iba "system"
-    setAppearance("light")
+    const [appearance, setAppearance] = useState<Appearance>('system');
 
-    // const updateAppearance = useCallback((mode: Appearance) => {
-    //     setAppearance(mode);
+    const updateAppearance = useCallback((mode: Appearance) => {
+        setAppearance(mode);
 
-    //     // Store in localStorage for client-side persistence...
-    //     localStorage.setItem('appearance', mode);
+        // Store in localStorage for client-side persistence...
+        localStorage.setItem('appearance', mode);
 
-    //     // Store in cookie for SSR...
-    //     setCookie('appearance', mode);
+        // Store in cookie for SSR...
+        setCookie('appearance', mode);
 
-    //     applyTheme(mode);
-    // }, []);
+        applyTheme(mode);
+    }, []);
 
-    // useEffect(() => {
-    //     const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
-    //     updateAppearance(savedAppearance || 'system');
+    useEffect(() => {
+        const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
+        updateAppearance(savedAppearance || 'system');
 
-    //     return () => mediaQuery()?.removeEventListener('change', handleSystemThemeChange);
-    // }, [updateAppearance]);
+        return () => mediaQuery()?.removeEventListener('change', handleSystemThemeChange);
+    }, [updateAppearance]);
 
-    return { appearance } as const;
+    return { appearance, updateAppearance } as const;
 }
