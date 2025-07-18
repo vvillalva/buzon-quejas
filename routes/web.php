@@ -11,6 +11,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('catalogo', function () {
+        return Inertia::render('catalogo/lista-opciones');
+    })->name('lista-opciones');
+
+    Route::get('estadisticas', function () {
+        return Inertia::render('estadisticas');
+    })->name('estadisticas');
 });
 
 require __DIR__.'/settings.php';
