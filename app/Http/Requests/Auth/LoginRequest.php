@@ -45,7 +45,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'correo' => __('auth.failed'),
+                'correo' => __('Credenciales incorrectas, por favor intenta de nuevo.'),
             ]);
         }
 
@@ -59,6 +59,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
+        //Limite de intentos para loguearse
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
