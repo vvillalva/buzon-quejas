@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatalogoController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,13 +13,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::get('catalogo', function () {
-        return Inertia::render('catalogo/lista-opciones');
-    })->name('lista-opciones');
-
     Route::get('estadisticas', function () {
         return Inertia::render('estadisticas');
     })->name('estadisticas');
+
+    Route::resource('catalogos', CatalogoController::class);
 });
 
 require __DIR__.'/settings.php';

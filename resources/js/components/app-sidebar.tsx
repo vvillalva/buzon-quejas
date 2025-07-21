@@ -20,7 +20,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Catalogo',
-        href: '/catalogo',
+        href: '/catalogos',
         icon: List,
     },
 ];

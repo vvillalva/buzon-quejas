@@ -8,6 +8,8 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
 ];
+
+//TODO: HACER QUE EL USUARIO QUE TENGA ROL DE ADMINISTRADOR PUEDA VER ESTA VISTA
 export default function ListaUsuarios() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

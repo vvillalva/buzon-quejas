@@ -51,11 +51,9 @@ export default function Password() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Configuración de Contraseña" />
-
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall title="Actualizar contraseña" description="Asegúrese de que su cuenta utilice una contraseña larga y aleatoria para mantenerse segura." />
-
                     <form onSubmit={updatePassword} className="space-y-6">
                         <div className="grid gap-2">
                             <Label htmlFor="current_password">Contraseña actual</Label>
