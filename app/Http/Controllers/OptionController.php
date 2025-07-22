@@ -3,23 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Option;
+use App\Models\Catalogo;
+use Inertia\Inertia;
 
 class OptionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // El nombre de la ruta puede ser por ejemplo "tipo-de-violencia.index"
+        $routeName = $request->route()->getName(); // e.g., "tipo-de-violencia.index"
+        $resourceName = explode('.', $routeName)[0]; // "tipo-de-violencia"
+
+        return Inertia::render("catalogo/lista-opciones", [
+            'opciones' => Option::all(),
+            'resourceName' => $resourceName,
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        // El nombre de la ruta puede ser por ejemplo "tipo-de-violencia.index"
+        $routeName = $request->route()->getName(); // e.g., "tipo-de-violencia.index"
+        $resourceName = explode('.', $routeName)[0]; // "tipo-de-violencia"
+        return Inertia::render("catalogo/agregar-opcion", [
+            'catalogos' => Catalogo::all(),
+            'resourceName' => $resourceName,
+        ]);
     }
 
     /**
@@ -27,7 +43,25 @@ class OptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // El nombre de la ruta puede ser por ejemplo "tipo-de-violencia.index"
+        $routeName = $request->route()->getName(); // e.g., "tipo-de-violencia.index"
+        $request->validate(
+            [
+                "nombre" => "required",
+                "estatus",
+                "catalogo_id"
+            ],
+            [
+                "nombre.required" => "El nombre es obligatorio para crear la opción."
+            ]
+        );
+
+
+        Option::create(
+            $request->only(["nombre", "estatus", "catalogo_id"])
+        );
+
+        return to_route($routeName);
     }
 
     /**

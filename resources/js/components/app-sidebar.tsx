@@ -27,6 +27,12 @@ const mainNavItems: NavItem[] = [
         title: 'Catalogo',
         href: '/catalogos',
         icon: List,
+        subitems:[
+            {
+                title: 'Tipo de Violencia',
+                url: '/tipo-de-violencia'
+            }
+        ]
     },
 ];
 

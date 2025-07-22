@@ -13,9 +13,7 @@ class CatalogoController extends Controller
      */
     public function index()
     {
-        return Inertia::render("catalogo/lista-opciones", [
-            'catalogos' => Catalogo::all()
-        ]);
+        //
     }
 
     /**
@@ -23,7 +21,7 @@ class CatalogoController extends Controller
      */
     public function create()
     {
-        return Inertia::render("catalogo/agregar-opcion");
+        //
     }
 
     /**
