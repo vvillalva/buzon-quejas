@@ -25,13 +25,16 @@ import { Input } from "../ui/input"
 import { Link } from "@inertiajs/react"
 import { useState } from "react"
 import { Plus } from "lucide-react"
+import Encabezados from "./encabezados"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  placeholderFilter: string;
+  filter: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -59,16 +62,17 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
   return (
     <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs">
+      <Encabezados title="Lista de quejas" subtitle="Revisa las diferentes quejas que se han generado en los ultimos dias."/>
       <div className="flex flex-row justify-between">
         <Input
-          placeholder="Nombre del catalogo..."
-          value={(table.getColumn("nombre")?.getFilterValue() as string) ?? ""}
+          placeholder={placeholderFilter}
+          value={(table.getColumn(`${filter}`)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("nombre")?.setFilterValue(event.target.value)
+            table.getColumn(`${filter}`)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <Link href={route('catalogos.create')} className="px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"> <Plus size={16} /> Nuevo Catalogo</Link>
+        {/* <Link href={route('catalogos.create')} className="px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"> <Plus size={16} /> Nuevo Catalogo</Link> */}
       </div>
       <div className="rounded-md border">
         <Table>

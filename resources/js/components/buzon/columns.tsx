@@ -80,3 +80,100 @@ export const columnasCatalogo: ColumnDef<ColumnaCatalogo>[] = [
         )
     }
 ]
+
+export type ColumnaQueja = {
+    nombre: string;
+    correo: string;
+    tel: string;
+    tipo_violencia: string;
+    folio: string;
+    mensaje: string;
+}
+
+export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
+    {
+        accessorKey: "folio",
+        header: ({ column }) => {
+            return (
+                <Button
+                    className="flex"
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Folio
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="uppercase pl-3"><span>{row.getValue('folio')}</span></div>
+    },
+    {
+        accessorKey: "nombre",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Nombre de la victima
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('nombre')}</span></div>
+    },
+    {
+        accessorKey: "correo",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Correo
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('correo')}</span></div>
+    },
+    {
+        accessorKey: "tel",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    No. Telefonico
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('tel')}</span></div>
+    },
+    {
+        accessorKey: "tipo_violencia",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Tipo de violencia
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3 uppercase"><span>{row.getValue('tipo_violencia')}</span></div>
+    },
+    {
+        accessorKey: "mensaje",
+        header: () => {
+            return (
+                <div>Queja</div>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('mensaje')}</span></div>
+    }
+]
