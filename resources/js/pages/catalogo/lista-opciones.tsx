@@ -12,21 +12,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const data: ColumnaCatalogo[] = [
-  {
-    id: 1,
-    nombre: "zsto es un catalogo"
-  },
-  {
-    id: 2,
-    nombre: "Esto es un catalogo"
-  },
-  {
-    id: 3,
-    nombre: "asto es un catalogo"
-  },
-]
-
 export default function ListaOpciones({catalogos=[]}) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

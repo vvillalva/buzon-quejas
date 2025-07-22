@@ -13,11 +13,8 @@ Route::post('/', [QuejaController::class, 'store'])->name('buzon.store');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route::get('dashboard', function () {
-    //     return Inertia::render('dashboard');
-    // })->name('dashboard');
-
-    Route::get('dashboard', [QuejaController::class, 'index']);
+    Route::get('dashboard', [QuejaController::class, 'index'])->name('dashboard');
+    Route::get('quejas', [QuejaController::class, 'quejasIndex'])->name('quejas');
 
     Route::get('estadisticas', function () {
         return Inertia::render('estadisticas');

@@ -17,6 +17,12 @@ class QuejaController extends Controller
             'buzon' => Queja::all()
         ]);
     }
+    public function quejasIndex()
+    {
+        return Inertia::render("quejas", [
+            'buzon' => Queja::all()
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.

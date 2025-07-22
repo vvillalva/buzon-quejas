@@ -26,15 +26,19 @@ import { Link } from "@inertiajs/react"
 import { useState } from "react"
 import { Plus } from "lucide-react"
 import Encabezados from "./encabezados"
+import { title } from "process"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   placeholderFilter: string;
   filter: string;
+  encabezado?: boolean;
+  titulo?: string;
+  subtitle?: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado=false, titulo="", subtitle="" }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -62,7 +66,7 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
 
   return (
     <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs">
-      <Encabezados title="Lista de quejas" subtitle="Revisa las diferentes quejas que se han generado en los ultimos dias."/>
+      {encabezado && <Encabezados title={titulo} subtitle={subtitle}/>}
       <div className="flex flex-row justify-between">
         <Input
           placeholder={placeholderFilter}

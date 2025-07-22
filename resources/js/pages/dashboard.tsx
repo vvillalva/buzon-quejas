@@ -12,9 +12,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 export default function Dashboard({ buzon=[] }) {
-
-    console.log('ESTA ES LA INFO', buzon)
-
     //TODO: Realizar CRUD de opciones, dependiendo su catalogo
     //TODO: Realizar CRUD para la vista de usuarios, 
     return (
@@ -40,6 +37,9 @@ export default function Dashboard({ buzon=[] }) {
                         data={buzon}
                         placeholderFilter='Buscar folio...'
                         filter='folio'
+                        encabezado={true}
+                        titulo='Lista de quejas'
+                        subtitle='Revisa las diferentes quejas que se han generado por medio del buzon.'
                     />
                 </div>
             </div>

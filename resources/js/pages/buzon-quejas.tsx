@@ -3,13 +3,19 @@ import FormularioBuzon from "@/components/buzon/formulario-buzon";
 import Header from "@/components/header";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { usePage } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BuzonQuejas() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const { props } = usePage<{ success?: string; folio?: string }>();
   const success = props.success;
   const folio = props.folio;
+
+  // Cuando success y folio existan, abre el dialog automáticamente
+  useEffect(() => {
+    if (success && folio) setOpen(true);
+  }, [success, folio]);
+  
   return (
     <main className="h-screen">
       <Header />
