@@ -58,10 +58,10 @@ class CatalogoController extends Controller
      */
     public function edit(string $id)
     {
-        $catalogo = Catalogo::find($id);
-        return Inertia::render("catalogo/editar-opcion", [
-            "catalogo" => $catalogo
-        ]);
+        // $catalogo = Catalogo::find($id);
+        // return Inertia::render("catalogo/editar-opcion", [
+        //     "catalogo" => $catalogo
+        // ]);
     }
 
     /**

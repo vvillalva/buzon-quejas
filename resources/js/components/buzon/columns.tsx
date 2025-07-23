@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "../ui/button";
 import { ArrowUpDown, CircleCheck, EllipsisVertical, Loader } from "lucide-react";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { Badge } from "../ui/badge";
 
 // This type is used to define the shape of our data.
@@ -186,7 +186,7 @@ export type ColumnaOpcion = {
 }
 
 export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
-        {
+    {
         accessorKey: "nombre",
         header: ({ column }) => {
             return (
@@ -222,25 +222,30 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
     },
     {
         id: "actions",
-        cell: ({ row }) => (
-            <div className="flex flex-row justify-end">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-                            size="icon"
-                        >
-                            <EllipsisVertical />
-                            <span className="sr-only">Opciones</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-32">
-                        <DropdownMenuItem ><Link href="">Editar</Link></DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id)}>Borrar</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-        ),
+        cell: ({ row }) => {
+            const { props } = usePage<{ resourceName?: string;}>();
+            const resourceName = props.resourceName;
+
+            return (
+                <div className="flex flex-row justify-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+                                size="icon"
+                            >
+                                <EllipsisVertical />
+                                <span className="sr-only">Opciones</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32">
+                            <DropdownMenuItem ><Link href={route(`${resourceName}.edit`, row.original.id)}>Editar</Link></DropdownMenuItem>
+                            <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id)}>Borrar</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )
+        },
     },
 ]

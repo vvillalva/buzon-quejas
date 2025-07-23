@@ -36,9 +36,10 @@ interface DataTableProps<TData, TValue> {
   encabezado?: boolean;
   titulo?: string;
   subtitle?: string;
+  resourceName?: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado=false, titulo="", subtitle="" }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado=false, titulo="", subtitle="", resourceName=""}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -63,7 +64,6 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
       rowSelection,
     },
   })
-
   return (
     <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs">
       {encabezado && <Encabezados title={titulo} subtitle={subtitle}/>}
@@ -76,8 +76,14 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
           }
           className="max-w-sm"
         />
-        {/* <Link href={route('catalogos.create')} className="px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"> <Plus size={16} /> Nuevo Catalogo</Link> */}
-      </div>
+        {resourceName && (
+          <Link
+            href={route(`${resourceName}.create`)}
+            className="px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"
+          >
+            <Plus size={16} /> Agregar Opción
+          </Link>
+        )}      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

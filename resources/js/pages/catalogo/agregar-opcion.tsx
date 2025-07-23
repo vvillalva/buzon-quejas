@@ -17,8 +17,6 @@ interface Catalogo {
 }
 
 export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { catalogos: Catalogo[], resourceName: string }) {
-    //TODO: VER QUE UN SWICH PUEDA AGREGA EL STATUS
-
     const TITULOS: Record<string, string> = {
         "tipo-de-violencia": "Tipo de Violencia",
         //Si hay mas catalogos agregarlos
@@ -39,6 +37,7 @@ export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { c
         },
     ];
 
+    //Obtener el ID del Catalogo para crear la opción
     const nombreCatalogo = TITULOS[resourceName];
     const catalogoActual = catalogos.find((cat: any) => cat.nombre === nombreCatalogo);
     const catalogoId = catalogoActual ? catalogoActual.id : "";

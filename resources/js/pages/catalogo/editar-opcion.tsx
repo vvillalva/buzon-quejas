@@ -4,30 +4,48 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Catalogos',
-        href: '/catalogos',
-    },
-    {
-        title: 'Editar Opción',
-        href: '/',
-    },
-];
+interface Opcion {
+    id: number;
+    nombre: string;
+    estatus: string;
+    created_at?: string
+    updated_at?: string
+}
 
-export default function EditarOpcion({ catalogo }) {
+export default function EditarOpcion({ opcion , resourceName = "" }: { opcion: Opcion, resourceName: string }) {
+    const TITULOS: Record<string, string> = {
+        "tipo-de-violencia": "Tipo de Violencia",
+        //Si hay mas catalogos agregarlos
+    };
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Catalogos',
+            href: '/dashboard',
+        },
+        {
+            title: `${TITULOS[resourceName] ?? "Catalogo"}`,
+            href: `/${resourceName}`, //Asi como esta en routes 'catalogos'
+        },
+        {
+            title: 'Editar Opción',
+            href: '/',
+        },
+    ];
+    
     const { data, setData, errors, put } = useForm({
-        nombre: catalogo.nombre || ""
+        nombre: opcion.nombre || "",
+        estatus: opcion.estatus || "0",
     })
 
     const editOption: FormEventHandler = (e) => {
         e.preventDefault();
-        put(route('catalogos.update', catalogo.id))
+        put(route(`${resourceName}.update`, opcion.id))
     };
 
     return (
@@ -59,6 +77,27 @@ export default function EditarOpcion({ catalogo }) {
                                     {errors.nombre
                                         ? <InputError message={errors.nombre} />
                                         : <Label className="text-[#64748B] text-sm font-normal">Ingresa un nombre claro y fácil de entender.</Label>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
+                            <div className="w-full lg:w-[300px]">
+                                <Label id='estatus' className="font-medium text-[#1E1E1E]">Estatus</Label>
+                            </div>
+                            <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+                                <div className="flex flex-col gap-2 justify-center items-center">
+                                    <Switch
+                                        checked={data.estatus === "1"} 
+                                        onCheckedChange={(checked) => setData("estatus", checked ? "1" : "0")}
+                                    />
+                                    {errors.estatus
+                                        &&
+                                        <>
+                                            <div className='w-full flex'>
+                                                <InputError message={errors.nombre} />
+                                            </div>
+                                        </>
                                     }
                                 </div>
                             </div>

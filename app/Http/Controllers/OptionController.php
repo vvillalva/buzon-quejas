@@ -75,9 +75,16 @@ class OptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
-        //
+        // El nombre de la ruta puede ser por ejemplo "tipo-de-violencia.index"
+        $routeName = $request->route()->getName(); // e.g., "tipo-de-violencia.index"
+        $resourceName = explode('.', $routeName)[0]; // "tipo-de-violencia"
+        $option = Option::find($id);
+        return Inertia::render("catalogo/editar-opcion", [
+            "opcion" => $option,
+            'resourceName' => $resourceName,
+        ]);
     }
 
     /**
@@ -85,7 +92,23 @@ class OptionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $routeName = $request->route()->getName(); // p.ej. "tipo-de-violencia" o "tipo-de-violencia.edit"
+        $baseRoute = explode('.', $routeName)[0]; // toma sólo "tipo-de-violencia"
+        $request->validate(
+            [
+                "nombre",
+                "estatus"
+            ]
+        );
+
+        $option = Option::find($id);
+
+        $option->nombre = $request->input('nombre');
+        $option->estatus = $request->input('estatus');
+
+        $option->save();
+
+        return to_route("{$baseRoute}.index");
     }
 
     /**
