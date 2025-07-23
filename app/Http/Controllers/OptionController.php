@@ -114,8 +114,12 @@ class OptionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        $routeName = $request->route()->getName(); // p.ej. "tipo-de-violencia" o "tipo-de-violencia.edit"
+        $baseRoute = explode('.', $routeName)[0]; // toma sólo "tipo-de-violencia"
+        Option::destroy($id);
+
+        return to_route("{$baseRoute}.index");
     }
 }

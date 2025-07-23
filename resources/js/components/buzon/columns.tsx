@@ -17,9 +17,9 @@ export type ColumnaCatalogo = {
     nombre: string
 }
 
-function handleDelete(id: number) {
+function handleDelete(id: number, resourceName: string) {
     if (confirm("Estas seguro de eliminar el dato?")) {
-        router.delete(route('catalogos.destroy', id))
+        router.delete(route(`${resourceName}.destroy`, id))
     }
 }
 
@@ -74,7 +74,7 @@ export const columnasCatalogo: ColumnDef<ColumnaCatalogo>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-32">
                         <DropdownMenuItem ><Link href={route('catalogos.edit', row.original.id)}>Editar</Link></DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id)}>Borrar</DropdownMenuItem>
+                        <DropdownMenuItem variant="destructive">Borrar</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
@@ -208,7 +208,7 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
             <Badge variant="outline" className="text-muted-foreground px-1.5">
                 {row.original.estatus === "1" ? (
                     <>
-                        <CircleCheck className="fill-green-500 dark:fill-green-400" />
+                        <CircleCheck className="fill-green-600 dark:fill-green-700 text-green-300" />
                         Activo
                     </>
                 ) : (
@@ -241,7 +241,7 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-32">
                             <DropdownMenuItem ><Link href={route(`${resourceName}.edit`, row.original.id)}>Editar</Link></DropdownMenuItem>
-                            <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id)}>Borrar</DropdownMenuItem>
+                            <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id, resourceName ?? "")}>Borrar</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
