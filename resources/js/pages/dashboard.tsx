@@ -14,7 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 export default function Dashboard({ buzon=[] }) {
-    //TODO: CONFIGURAR BIEN LOS DATOS ESTADISTICOS, investigar que datos estadisticos conviene sacar
+    //TODO: CONFIGURAR BIEN LOS DATOS ESTADISTICOS
     //TODO: Realizar CRUD para la vista de usuarios, 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
