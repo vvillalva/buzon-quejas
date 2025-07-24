@@ -44,7 +44,7 @@ export default function FormularioBuzon() {
             onChange={e => setData('nombre', e.target.value)}
             placeholder="Escribe tu nombre"
           />
-          <InputError message={errors.nombre} />
+          <small className="text-neutral-400 italic">*Si tu queja es anonima, por favor deja el espacio en blanco.</small>
         </div>
         {/* Correo */}
         <div className="flex flex-col gap-1">
@@ -66,6 +66,7 @@ export default function FormularioBuzon() {
             name="tel"
             type="tel"
             maxLength={10}
+            required
             inputMode="numeric"
             autoComplete="tel"
             placeholder="Ej. 5512345678"

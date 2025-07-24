@@ -15,7 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function estadisticas({ totalQuejas, porSemestreTipo, anonimas, conNombre, totalQuejasTipo}) {
-//TODO: AGREGAR UNA GRAFICA DE ESTATUS, pero para eso debo cambiar logica y agregar un campo en la BD que diga, estatus_queja o estatus - Ultimo
+//TODO: AGREGAR UNA GRAFICA DE ESTATUS, pero para eso debo cambiar logica y agregar un campo en la BD que diga, estatus_queja o estatus - NECESITO MODIFICAR LA BD PARA SEGUIR CON ESTE PASO
 //TODO: Configurar las 4 cards - Prioridad
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

@@ -27,6 +27,7 @@ import { useState } from "react"
 import { Plus } from "lucide-react"
 import Encabezados from "./encabezados"
 import { title } from "process"
+import { Pagination } from "../pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -66,7 +67,7 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
   })
   return (
     <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs">
-      {encabezado && <Encabezados title={titulo} subtitle={subtitle}/>}
+      {encabezado && <Encabezados title={titulo} subtitle={subtitle} />}
       <div className="flex flex-row justify-between">
         <Input
           placeholder={placeholderFilter}
@@ -128,6 +129,7 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
           </TableBody>
         </Table>
       </div>
+      <Pagination table={table} />
     </div>
   )
 }
