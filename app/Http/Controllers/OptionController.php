@@ -24,6 +24,17 @@ class OptionController extends Controller
         ]);
     }
 
+    public function indexOptions()
+    {
+        $opcionesTipoViolencia = Option::where('catalogo_id', 1)
+            ->where('estatus', 1)
+            ->get(['id', 'nombre']);
+
+        return Inertia::render('buzon-quejas', [
+            'tipoViolenciaOptions' => $opcionesTipoViolencia
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

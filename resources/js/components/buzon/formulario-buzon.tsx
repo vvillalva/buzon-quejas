@@ -14,7 +14,15 @@ import { Label } from "../ui/label";
 import InputError from "../input-error";
 import { FormEventHandler } from "react";
 
-export default function FormularioBuzon() {
+interface TipoViolencia{
+  id: number;
+  nombre: string;
+}
+interface FormularioProps{
+  tipoViolencia: TipoViolencia[]
+}
+
+export default function FormularioBuzon({ tipoViolencia }:FormularioProps) {
   const { data, setData, errors, post, processing, reset } = useForm({
     nombre: "",
     correo: "",
@@ -90,11 +98,11 @@ export default function FormularioBuzon() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="fisica">Física</SelectItem>
-                <SelectItem value="psicologica">Psicológica</SelectItem>
-                <SelectItem value="sexual">Sexual</SelectItem>
-                <SelectItem value="economica">Económica</SelectItem>
-                <SelectItem value="otra">Otra</SelectItem>
+                {tipoViolencia.map(opcion => (
+                  <SelectItem key={opcion.id} value={opcion.nombre}>
+                    {opcion.nombre}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>

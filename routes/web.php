@@ -4,12 +4,9 @@ use App\Http\Controllers\EstadisticaController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuejaController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render(component: 'buzon-quejas');
-})->name('buzon');
-
+// O si vas directo a la vista de buzon
+Route::get('/', [OptionController::class, 'indexOptions'])->name('buzon');
 Route::post('/', [QuejaController::class, 'store'])->name('buzon.store');
 
 

@@ -5,7 +5,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescript
 import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-export default function BuzonQuejas() {
+export default function BuzonQuejas({tipoViolenciaOptions=[]}) {
   const [open, setOpen] = useState(false);
   const { props } = usePage<{ success?: string; folio?: string }>();
   const success = props.success;
@@ -34,7 +34,7 @@ export default function BuzonQuejas() {
           <p className="text-sm text-[#96559B] font-semibold italic dark:text-white">*Tus datos personales son opcionales. Si prefieres mantener el anonimato, puedes omitir los campos de identificación. Tu seguridad y privacidad son nuestra prioridad.</p>
         </div>
         <div className="formulario">
-          <FormularioBuzon />
+          <FormularioBuzon tipoViolencia={tipoViolenciaOptions}/>
         </div>
         {success && folio && (
           <AlertDialog open={open} onOpenChange={setOpen}>
