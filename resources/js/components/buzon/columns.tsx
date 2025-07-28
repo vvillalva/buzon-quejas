@@ -73,7 +73,7 @@ export const columnasCatalogo: ColumnDef<ColumnaCatalogo>[] = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-32">
-                        <DropdownMenuItem ><Link href={route('catalogos.edit', row.original.id)}>Editar</Link></DropdownMenuItem>
+                        <DropdownMenuItem ><Link href={route('catalogos.edit', row.original.id)} className="w-full">Editar</Link></DropdownMenuItem>
                         <DropdownMenuItem variant="destructive">Borrar</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -219,7 +219,7 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
                 <div>Queja</div>
             )
         },
-        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('mensaje')}</span></div>
+        cell: ({ row }) => <div className=" max-w-[120px] pl-3 truncate "><span>{row.getValue('mensaje')}</span></div>
     },
     {
         id: "actions",
@@ -238,7 +238,7 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-32">
-                            <DropdownMenuItem ><Link href={route('editar-queja', row.original.id)}>Editar</Link></DropdownMenuItem>
+                            <DropdownMenuItem ><Link href={route('editar-queja', row.original.id)} className="w-full">Editar</Link></DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
@@ -272,26 +272,35 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
     {
         accessorKey: "estatus",
         header: "Estatus de Opción",
-        cell: ({ row }) => (
-            <Badge variant="outline" className="text-muted-foreground px-1.5">
-                {row.original.estatus === "1" ? (
-                    <>
-                        <CircleCheck className="fill-green-600 dark:fill-green-700 text-green-300" />
-                        Activo
-                    </>
-                ) : (
-                    <>
-                        <Loader />
-                        Desactivado
-                    </>
-                )}
-            </Badge>
-        ),
+        cell: ({ row }) => {
+            const estatus = row.original.estatus;
+
+            // Puedes usar colores diferentes para cada estatus si quieres
+            let icon = null;
+            let text = null;
+            let badgeClass = "text-muted-foreground px-1.5";
+
+            if (estatus === "1") {
+                icon = <CircleCheck className="fill-green-600 dark:fill-green-700 text-green-300" />;
+                text = <p className="text-green-700">Activado</p>;
+                badgeClass += " border-green-600"; // Puedes agregar más clases
+            } else {
+                icon = <Loader />;
+                text = <p>Desactivado</p>;
+                badgeClass += " border-neutral-500";
+            }
+
+            return (
+                <Badge variant="outline" className={badgeClass}>
+                    {icon} {text}
+                </Badge>
+            );
+        },
     },
     {
         id: "actions",
         cell: ({ row }) => {
-            const { props } = usePage<{ resourceName?: string;}>();
+            const { props } = usePage<{ resourceName?: string; }>();
             const resourceName = props.resourceName;
 
             return (
@@ -308,7 +317,7 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-32">
-                            <DropdownMenuItem ><Link href={route(`${resourceName}.edit`, row.original.id)}>Editar</Link></DropdownMenuItem>
+                            <DropdownMenuItem ><Link href={route(`${resourceName}.edit`, row.original.id)} className="w-full">Editar</Link></DropdownMenuItem>
                             <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id, resourceName ?? "")}>Borrar</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

@@ -34,6 +34,7 @@ interface Queja {
     tel: string;
     tipo_violencia: string;
     created_at: string;
+    mensaje:string;
 }
 
 interface EditarQuejaProps {
@@ -85,8 +86,8 @@ export default function EditarQueja({ queja }: EditarQuejaProps) {
                                 <DatosQueja title={"Tipo de Violencia"} data={queja.tipo_violencia} />
                                 <DatosQueja title={"Fecha de Creación"} data={queja.created_at.slice(0, 10)} />
                             </div>
-                            <div className="flex">
-                                <DatosQueja title={"Mensaje"} data={queja.mensaje} />
+                            <div className="flex w-full">
+                                <DatosQueja title={"Mensaje"} data={queja.mensaje} className='w-full'/>
                             </div>
                         </div>
                         <div className='flex flex-row justify-end pt-2'>

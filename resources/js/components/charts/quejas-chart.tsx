@@ -52,6 +52,7 @@ interface QuejasChartProps {
     data: any[]
 }
 
+//TODO: REVISAR PROBLEMA CON LAD FECHAS
 export default function QuejasChart({ data }: QuejasChartProps) {
     const [timeRange, setTimeRange] = React.useState("90d")
 

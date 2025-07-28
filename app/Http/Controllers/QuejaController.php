@@ -13,8 +13,36 @@ class QuejaController extends Controller
      */
     public function index()
     {
+        $anioActual = now()->year;
+        $porMesTipo = Queja::selectRaw("FORMAT(created_at, 'yyyy-MM-dd') as fecha, tipo_violencia, COUNT(*) as total")
+            ->whereYear('created_at', $anioActual)
+            ->groupBy(
+                \DB::raw("FORMAT(created_at, 'yyyy-MM-dd')"),
+                'tipo_violencia'
+            )
+            ->orderBy('fecha')
+            ->get();
+        // Primero, obten todos los tipos de violencia únicos
+        $tipos = Queja::distinct()->pluck('tipo_violencia');
+        // Estructura: ["fecha" => [tipo1 => total, tipo2 => total, ...], ...]
+        $rows = [];
+        foreach ($porMesTipo as $row) {
+            $fecha = $row->fecha;
+            if (!isset($rows[$fecha])) {
+                $rows[$fecha] = ['date' => $fecha];
+                foreach ($tipos as $tipo) {
+                    $rows[$fecha][$tipo] = 0; // Inicializa en cero
+                }
+            }
+            $rows[$fecha][$row->tipo_violencia] = (int) $row->total;
+        }
+        // Convierte a array plano (para el frontend)
+        $totalQuejasTipo = array_values($rows);
+
+
         return Inertia::render("dashboard", [
-            'buzon' => Queja::all()
+            'buzon' => Queja::all(),
+            'totalQuejasTipo' => $totalQuejasTipo
         ]);
     }
     public function quejasIndex()
@@ -54,6 +82,11 @@ class QuejaController extends Controller
             ]
         );
 
+        // Si el campo nombre viene vacío o nulo, ponle 'Anonimo'
+        if (!$request->filled('nombre')) {
+            $request->merge(['nombre' => 'Anonimo']);
+        }
+
         // Generar folio automáticamente
         $folio = $this->generarFolio();
 
@@ -71,8 +104,6 @@ class QuejaController extends Controller
                 ["folio" => $folio]
             )
         );
-
-        \Log::info('Redirigiendo con', ['folio' => $folio]);
 
         return redirect()->route('buzon')->with([
             'success' => 'Haz realizado tu queja con éxito.',
