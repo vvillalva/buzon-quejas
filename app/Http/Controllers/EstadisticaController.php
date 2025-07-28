@@ -56,6 +56,8 @@ class EstadisticaController extends Controller
         // Convierte a array plano (para el frontend)
         $totalQuejasTipo = array_values($rows);
 
+        
+
         return Inertia::render("estadisticas", [
             'totalQuejas' => $totalQuejas,
             'porSemestreTipo' => $porSemestreTipo,

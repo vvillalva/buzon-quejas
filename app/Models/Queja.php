@@ -13,5 +13,5 @@ class Queja extends Model
     protected $table = 'quejas';
 
     // Campos
-    protected $fillable = ['nombre', 'correo', 'tel', 'tipo_violencia', 'mensaje', 'folio'];
+    protected $fillable = ['nombre', 'correo', 'tel', 'tipo_violencia', 'mensaje', 'folio', 'estatus'];
 }

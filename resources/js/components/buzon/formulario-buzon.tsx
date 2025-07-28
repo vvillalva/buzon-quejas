@@ -21,6 +21,7 @@ export default function FormularioBuzon() {
     tel: "",
     tipo_violencia: "",
     mensaje: "",
+    estatus: "pendiente"
   })
 
   const createQueja: FormEventHandler = (e) => {
