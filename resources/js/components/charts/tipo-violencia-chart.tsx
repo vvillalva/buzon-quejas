@@ -47,7 +47,7 @@ const chartConfig = {
         label: "Psicologica",
         color: "var(--chart-3)",
     },
-    sexual: {
+    Sexual: {
         label: "Sexual",
         color: "var(--chart-4)",
     },

@@ -1,4 +1,5 @@
 import Encabezados from '@/components/buzon/encabezados';
+import { EstatusChart } from '@/components/charts/estatus-charts';
 import PersonasChart from '@/components/charts/personas-chart';
 import QuejasChart from '@/components/charts/quejas-chart';
 import { TipoViolenciaChart } from '@/components/charts/tipo-violencia-chart';
@@ -13,8 +14,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function estadisticas({ porSemestreTipo = [], anonimas, conNombre, totalQuejasTipo } : { porSemestreTipo : [], anonimas: number, conNombre: number, totalQuejasTipo: []}) {
-    //TODO: AGREGAR UNA GRAFICA DE ESTATUS, pero para eso debo cambiar logica y agregar un campo en la BD que diga, estatus_queja o estatus - NECESITO MODIFICAR LA BD PARA SEGUIR CON ESTE PASO
+export default function estadisticas({ porSemestreTipo = [], anonimas, conNombre, totalQuejasTipo, quejasPorMesEstatus }: { porSemestreTipo: [], anonimas: number, conNombre: number, totalQuejasTipo: [], quejasPorMesEstatus : [] }) {
+    console.log('este es nuevo --- ',quejasPorMesEstatus)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Estadisticas" />
@@ -26,7 +27,7 @@ export default function estadisticas({ porSemestreTipo = [], anonimas, conNombre
                         <TipoViolenciaChart tipo={porSemestreTipo} />
                     </div>
                     <div className='min-w-[500px]'>
-                        <TipoViolenciaChart tipo={porSemestreTipo} />
+                        <EstatusChart data={quejasPorMesEstatus} />
                     </div>
                     <PersonasChart dataAnonimas={anonimas} dataIdetificadas={conNombre} />
                 </div>
