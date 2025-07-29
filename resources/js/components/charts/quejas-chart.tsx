@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import {
     Card,
@@ -22,9 +21,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useState } from "react"
 
 export const description = "Grafica del total de quejas en el año."
-
+//*Van en MAYUS por que asi lo regresa el Backend
+//* console.log(data)
 const chartConfig = {
     economica: {
         label: "Economica",
@@ -38,7 +39,7 @@ const chartConfig = {
         label: "Psicologica",
         color: "var(--chart-3)",
     },
-    sexual: {
+    Sexual: {
         label: "Sexual",
         color: "var(--chart-4)",
     },
@@ -52,9 +53,8 @@ interface QuejasChartProps {
     data: any[]
 }
 
-//TODO: REVISAR PROBLEMA CON LAD FECHAS
 export default function QuejasChart({ data }: QuejasChartProps) {
-    const [timeRange, setTimeRange] = React.useState("90d")
+    const [timeRange, setTimeRange] = useState("90d")
 
     // Encuentra la fecha más reciente en tu data
     const lastDate = data.length
@@ -128,11 +128,11 @@ export default function QuejasChart({ data }: QuejasChartProps) {
                             tickMargin={8}
                             minTickGap={32}
                             tickFormatter={(value) => {
-                                const date = new Date(value)
-                                return date.toLocaleDateString("es-MX", {
-                                    month: "short",
-                                    day: "numeric",
-                                })
+                                // value === "2025-07-29"
+                                if (!value) return "";
+                                const [year, month, day] = value.split("-");
+                                const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+                                return `${parseInt(day, 10)} ${meses[parseInt(month, 10) - 1]}`;
                             }}
                         />
                         <ChartTooltip
@@ -140,16 +140,16 @@ export default function QuejasChart({ data }: QuejasChartProps) {
                             content={
                                 <ChartTooltipContent
                                     labelFormatter={(value) => {
-                                        return new Date(value).toLocaleDateString("es-MX", {
-                                            month: "short",
-                                            day: "numeric",
-                                        })
+                                        // value === "2025-07-29"
+                                        if (!value) return "";
+                                        const [year, month, day] = value.split("-");
+                                        const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Novviembre", "Diciembre"];
+                                        return `${parseInt(day, 10)} ${meses[parseInt(month, 10) - 1]}`;
                                     }}
                                     indicator="dot"
                                 />
                             }
                         />
-                        {/* Render dinámicamente un <Area /> por cada tipo de violencia */}
                         {Object.entries(chartConfig).map(([key, config]) =>
                             key !== "total" && config.color ? (
                                 <Area
@@ -162,7 +162,7 @@ export default function QuejasChart({ data }: QuejasChartProps) {
                                 />
                             ) : null
                         )}
-                        <ChartLegend content={<ChartLegendContent  className="flex flex-wrap gap-2"/>} />
+                        <ChartLegend content={<ChartLegendContent className="flex flex-wrap gap-2" />} />
                     </AreaChart>
                 </ChartContainer>
             </CardContent>
