@@ -38,9 +38,10 @@ interface DataTableProps<TData, TValue> {
   titulo?: string;
   subtitle?: string;
   resourceName?: string;
+  pagination?: boolean;
 }
 
-export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado=false, titulo="", subtitle="", resourceName=""}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado=false, titulo="", subtitle="", resourceName="", pagination=true}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -129,7 +130,9 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
           </TableBody>
         </Table>
       </div>
-      <Pagination table={table} />
+      {pagination && (
+        <Pagination table={table} />
+      )}
     </div>
   )
 }
