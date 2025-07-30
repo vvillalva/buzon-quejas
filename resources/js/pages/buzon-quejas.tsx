@@ -17,9 +17,9 @@ export default function BuzonQuejas({tipoViolenciaOptions=[]}) {
   }, [success, folio]);
   
   return (
-    <main className="h-screen bg-neutral-900">
+    <main className="h-screen">
       <Header />
-      <section className="formulario-buzon flex flex-col px-4 pb-12 lg:px-[132px] my-10 gap-8 dark:bg-transparent dark:text-white">
+      <section className="formulario-buzon flex flex-col px-4 pb-12 lg:px-[132px] my-10 gap-8 dark:text-white">
         <div className="encabezados flex flex-col gap-4">
           <div className="titulo flex flex-col gap-2 lg:gap-0 lg:flex-row lg:items-center">
             <div className="flex flex-row">

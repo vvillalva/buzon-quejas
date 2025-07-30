@@ -15,7 +15,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function estadisticas({ porSemestreTipo = [], anonimas, conNombre, totalQuejasTipo, quejasPorMesEstatus }: { porSemestreTipo: [], anonimas: number, conNombre: number, totalQuejasTipo: [], quejasPorMesEstatus : [] }) {
-    console.log('este es nuevo --- ',quejasPorMesEstatus)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Estadisticas" />

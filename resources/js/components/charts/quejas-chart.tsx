@@ -26,34 +26,51 @@ import { useState } from "react"
 export const description = "Grafica del total de quejas en el año."
 //*Van en MAYUS por que asi lo regresa el Backend
 //* console.log(data)
-const chartConfig = {
-    economica: {
-        label: "Economica",
-        color: "var(--chart-1)",
-    },
-    fisica: {
-        label: "Fisica",
-        color: "var(--chart-2)",
-    },
-    psicologica: {
-        label: "Psicologica",
-        color: "var(--chart-3)",
-    },
-    Sexual: {
-        label: "Sexual",
-        color: "var(--chart-4)",
-    },
-    otra: {
-        label: "Otros",
-        color: "var(--chart-5)",
-    },
-} satisfies ChartConfig
+const colorClasses = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-6)",
+  "var(--chart-7)",
+  // ...agrega más si esperas más tipos
+];
+
+type ChartConfigItem = {
+  label: string;
+  color: string;
+};
+
+type ChartConfig = {
+  [key: string]: ChartConfigItem;
+};
 
 interface QuejasChartProps {
     data: any[]
 }
 
 export default function QuejasChart({ data }: QuejasChartProps) {
+    // Extrae todas las keys, quitando 'date'
+    const tipoKeys = Object.keys(data[0]).filter(
+        key => key !== "date"
+    );
+
+    // Ahora genera el chartConfig dinámico
+    const chartConfig: ChartConfig = {} satisfies ChartConfig;
+
+    tipoKeys.forEach((key, idx) => {
+        // Pone la primera letra en mayúscula y el resto igual (por si son todo minúsculas)
+        const label =
+            key.charAt(0).toUpperCase() +
+            key.slice(1).toLowerCase();
+
+        chartConfig[key] = {
+            label,
+            color: colorClasses[idx % colorClasses.length], // va asignando colores progresivos
+        };
+    });
+
     const [timeRange, setTimeRange] = useState("90d")
 
     // Encuentra la fecha más reciente en tu data

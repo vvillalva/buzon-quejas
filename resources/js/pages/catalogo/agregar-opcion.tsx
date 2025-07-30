@@ -44,7 +44,7 @@ export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { c
 
     const { data, setData, errors, post } = useForm({
         nombre: "",
-        estatus: false,
+        estatus: true,
         catalogo_id: catalogoId
     })
 
@@ -90,27 +90,13 @@ export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { c
                                 </div>
                             </div>
                         </div>
-                        <div className="w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
+                        {/* <div className="w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
                             <div className="w-full lg:w-[300px]">
                                 <Label id='nombre' className="font-medium">Estatus</Label>
                             </div>
                             <div className="flex flex-col gap-4 w-full lg:w-[405px]">
-                                {/* <div className="flex flex-col gap-2">
-                                    <Input
-                                        id='nombre'
-                                        type="text"
-                                        value={data.nombre}
-                                        required
-                                        onChange={(e) => setData('nombre', e.target.value)}
-                                        placeholder='Nombre de catalogo...'
-                                    />
-                                    {errors.nombre
-                                        ? <InputError message={errors.nombre} />
-                                        : <Label className="text-[#64748B] text-sm font-normal">Ingresa un nombre claro y fácil de entender.</Label>
-                                    }
-                                </div> */}
                             </div>
-                        </div>
+                        </div> */}
                         <Separator />
                         <div className="flex flex-row justify-end">
                             <Button type="submit" className="md:w-[140px] w-full">Guardar</Button>

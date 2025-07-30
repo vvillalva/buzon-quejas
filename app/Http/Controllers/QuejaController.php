@@ -87,6 +87,21 @@ class QuejaController extends Controller
             $request->merge(['nombre' => 'Anonimo']);
         }
 
+        // Normaliza el valor de tipo_violencia a minúsculas y sin acentos
+        if ($request->filled('tipo_violencia')) {
+            $tipo = $request->input('tipo_violencia');
+
+            // Quitar acentos
+            $tipoNormalizado = iconv('UTF-8', 'ASCII//TRANSLIT', $tipo);
+            // Convertir a minúsculas
+            $tipoNormalizado = mb_strtolower($tipoNormalizado);
+
+            // Quitar cualquier caracter raro que deje iconv (opcional)
+            $tipoNormalizado = preg_replace('/[^a-z0-9]/', '', $tipoNormalizado);
+
+            $request->merge(['tipo_violencia' => $tipoNormalizado]);
+        }
+
         // Generar folio automáticamente
         $folio = $this->generarFolio();
 
