@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
     },
   })
   return (
-    <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs">
+    <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs bg-card">
       {encabezado && <Encabezados title={titulo} subtitle={subtitle} />}
       <div className="flex flex-col gap-4 lg:flex-row justify-between">
         <Input

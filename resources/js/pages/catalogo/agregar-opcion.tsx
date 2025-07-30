@@ -65,13 +65,13 @@ export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { c
                 <Separator />
                 <div className="datos-cedula flex flex-col gap-8">
                     <div className="encabezado">
-                        <h4 className="text-[#333333] text-xl font-semibold">Datos de la nueva opción</h4>
-                        <p className="text-[#787878]">Ingresa los datos de la nueva opción para el catalogo.</p>
+                        <h4 className="text-xl font-semibold">Datos de la nueva opción</h4>
+                        <p className="text-muted-foreground">Ingresa los datos de la nueva opción para el catalogo.</p>
                     </div>
                     <form onSubmit={createCatalogo} className="flex flex-col gap-6">
                         <div className="w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
                             <div className="w-full lg:w-[300px]">
-                                <Label id='nombre' className="font-medium text-[#1E1E1E]">Nombre</Label>
+                                <Label id='nombre' className="font-medium">Nombre</Label>
                             </div>
                             <div className="flex flex-col gap-4 w-full lg:w-[405px]">
                                 <div className="flex flex-col gap-2">
@@ -85,14 +85,14 @@ export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { c
                                     />
                                     {errors.nombre
                                         ? <InputError message={errors.nombre} />
-                                        : <Label className="text-[#64748B] text-sm font-normal">Ingresa un nombre claro y fácil de entender.</Label>
+                                        : <Label className="text-muted-foreground text-sm font-normal">Ingresa un nombre claro y fácil de entender.</Label>
                                     }
                                 </div>
                             </div>
                         </div>
                         <div className="w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
                             <div className="w-full lg:w-[300px]">
-                                <Label id='nombre' className="font-medium text-[#1E1E1E]">Estatus</Label>
+                                <Label id='nombre' className="font-medium">Estatus</Label>
                             </div>
                             <div className="flex flex-col gap-4 w-full lg:w-[405px]">
                                 {/* <div className="flex flex-col gap-2">

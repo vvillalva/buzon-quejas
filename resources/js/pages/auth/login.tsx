@@ -15,10 +15,9 @@ type LoginForm = {
 
 interface LoginProps {
     status?: string;
-    canResetPassword: boolean;
 }
 
-export default function Login({ status, canResetPassword }: LoginProps) {
+export default function Login({ status }: LoginProps) {
     const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
         correo: '',
         password: '',
@@ -35,8 +34,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         <AuthLayout title="Buzon de Quejas" description="Ingresa tus credenciales para ingresar al adminstrador.">
             <Head title="Inicio de Sesión" />
             <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-6">
-                    <div className="grid gap-2">
+                <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-2">
                         <Label htmlFor="email">Correo</Label>
                         <Input
                             id="email"
@@ -51,8 +50,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         />
                         <InputError message={errors.correo} />
                     </div>
-
-                    <div className="grid gap-2">
+                    <div className="flex flex-col gap-2">
                         <Label htmlFor="password">Contraseña</Label>
                         <Input
                             id="password"
@@ -66,14 +64,16 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         />
                         <InputError message={errors.password} />
                     </div>
-
                     <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                         Entrar
                     </Button>
                 </div>
             </form>
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            <div className='flex justify-center pt-5'>
+                <small className='text-center text-neutral-400'>Todos los derechos reservados © 2025 Secretaria General de Gobierno y Mediación.</small>
+            </div>
+            {status && <div className="mb-4 text-center text-sm font-medium text-primary">{status}</div>}
         </AuthLayout>
     );
 }

@@ -178,16 +178,16 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
 
             if (estatus === "atendido") {
                 icon = <CircleCheck className="fill-green-600 dark:fill-green-700 text-green-300" />;
-                text = <p className="text-green-700">Atendido</p>;
-                badgeClass += " border-green-600"; // Puedes agregar más clases
+                text = <p className="text-green-700 dark:text-green-500">Atendido</p>;
+                badgeClass += " border-green-600 bg-status-card"; // Puedes agregar más clases
             } else if (estatus === "en-curso") {
                 icon = <LoaderCircle className="animate-spin text-yellow-500" />;
                 text = <p className="text-yellow-500">En Curso</p>;
-                badgeClass += " border-yellow-500 text-yellow-600";
+                badgeClass += " border-yellow-500 text-yellow-600 bg-status-card";
             } else {
                 icon = <Loader/>;
                 text = <p>Pendiente</p>;
-                badgeClass += " border-neutral-500";
+                badgeClass += " border-neutral-500 bg-status-card";
             }
 
             return (
@@ -282,12 +282,12 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
 
             if (estatus === "1") {
                 icon = <CircleCheck className="fill-green-600 dark:fill-green-700 text-green-300" />;
-                text = <p className="text-green-700">Activado</p>;
-                badgeClass += " border-green-600"; // Puedes agregar más clases
+                text = <p className="text-green-700 dark:text-green-500">Activado</p>;
+                badgeClass += " border-green-600 bg-status-card"; // Puedes agregar más clases
             } else {
                 icon = <Loader />;
                 text = <p>Desactivado</p>;
-                badgeClass += " border-neutral-500";
+                badgeClass += "border-neutral-500 bg-status-card";
             }
 
             return (

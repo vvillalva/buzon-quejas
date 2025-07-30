@@ -17,7 +17,7 @@ export default function Dashboard({ buzon=[] , totalQuejasTipo }:{ buzon : [], t
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-8 overflow-x-auto">
                 <Encabezados title="Dashboard" subtitle="Revisa las quejas que se han genero y los datos estadisticos historicos." />
                 <div className="@container/main flex flex-1 flex-col gap-4">
                     <QuejasChart data={totalQuejasTipo} />

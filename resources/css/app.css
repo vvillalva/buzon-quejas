@@ -5,48 +5,56 @@
     font-weight: 100;
     src: url('/fonts/Inter/static/Inter_18pt-Thin.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 200;
     src: url('/fonts/Inter/static/Inter_18pt-ExtraLight.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 300;
     src: url('/fonts/Inter/static/Inter_18pt-Light.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     src: url('/fonts/Inter/static/Inter_18pt-Regular.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
     src: url('/fonts/Inter/static/Inter_18pt-Medium.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     src: url('/fonts/Inter/static/Inter_18pt-Semibold.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
     src: url('/fonts/Inter/static/Inter_18pt-Bold.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 800;
     src: url('/fonts/Inter/static/Inter_18pt-ExtraBold.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Inter';
     font-style: normal;
@@ -62,6 +70,17 @@
 
 @theme {
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --color-primary-50: var(--color-trendy-pink-50);
+    --color-primary-100: var(--color-trendy-pink-100);
+    --color-primary-200: var(--color-trendy-pink-200);
+    --color-primary-300: var(--color-trendy-pink-300);
+    --color-primary-400: var(--color-trendy-pink-400);
+    --color-primary-500: var(--color-trendy-pink-500);
+    --color-primary-600: var(--color-trendy-pink-600);
+    --color-primary-700: var(--color-trendy-pink-700);
+    --color-primary-800: var(--color-trendy-pink-800);
+    --color-primary-900: var(--color-trendy-pink-900);
+    --color-primary-950: var(--color-trendy-pink-950);
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -109,6 +128,8 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-status-card: var(--status);
 }
 
 /*
@@ -120,6 +141,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
     *,
     ::after,
     ::before,
@@ -130,13 +152,24 @@
 }
 
 :root {
+    --color-trendy-pink-50: #fbf7fc;
+    --color-trendy-pink-100: #f6eff8;
+    --color-trendy-pink-200: #eeddf1;
+    --color-trendy-pink-300: #e0c2e5;
+    --color-trendy-pink-400: #cf9ed4;
+    --color-trendy-pink-500: #b877be;
+    --color-trendy-pink-600: #96559b;
+    --color-trendy-pink-700: #814784;
+    --color-trendy-pink-800: #6b3b6d;
+    --color-trendy-pink-900: #5a345b;
+    --color-trendy-pink-950: #381939;
     --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    --foreground: oklch(20.904% 0.00002 271.152);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
+    --primary: #96559b;
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
@@ -157,23 +190,36 @@
     --radius: 0.625rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary: #96559b;
     --sidebar-primary-foreground: oklch(0.985 0 0);
     --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-accent-foreground: #96559b;
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
+
+    --status: oklch(100% 0.00011 271.152);
 }
 
 .dark {
+    --color-trendy-pink-50: #fbf7fc;
+    --color-trendy-pink-100: #f6eff8;
+    --color-trendy-pink-200: #eeddf1;
+    --color-trendy-pink-300: #e0c2e5;
+    --color-trendy-pink-400: #cf9ed4;
+    --color-trendy-pink-500: #b877be;
+    --color-trendy-pink-600: #96559b;
+    --color-trendy-pink-700: #814784;
+    --color-trendy-pink-800: #6b3b6d;
+    --color-trendy-pink-900: #5a345b;
+    --color-trendy-pink-950: #381939;
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
+    --card: oklch(18.22% 0.00002 271.152);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.145 0 0);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
+    --primary: #814784;
+    --primary-foreground: oklch(100% 0.00011 271.152);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.269 0 0);
@@ -192,12 +238,13 @@
     --chart-5: oklch(0.645 0.246 16.439);
     --sidebar: oklch(0.205 0 0);
     --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
+    --sidebar-primary: #e0c2e5;
     --sidebar-primary-foreground: oklch(0.985 0 0);
     --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-accent-foreground: #e0c2e5;
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
+    --status: oklch(25.197% 0.00003 271.152);
 }
 
 @layer base {

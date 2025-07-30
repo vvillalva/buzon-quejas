@@ -15,7 +15,7 @@ export default function Quejas({ buzon = [] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Quejas" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-8 overflow-x-auto">
                 <Encabezados title="Quejas" subtitle="Revisa las quejas que se han generado y los datos historicos que se tienen registrados." />
                 <DataTable
                     columns={columnasQuejas}
