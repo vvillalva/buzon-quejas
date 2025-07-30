@@ -17,7 +17,7 @@ export default function BuzonQuejas({tipoViolenciaOptions=[]}) {
   }, [success, folio]);
   
   return (
-    <main className="h-screen">
+    <main className="h-screen bg-neutral-900">
       <Header />
       <section className="formulario-buzon flex flex-col px-4 pb-12 lg:px-[132px] my-10 gap-8 dark:bg-transparent dark:text-white">
         <div className="encabezados flex flex-col gap-4">
@@ -31,7 +31,7 @@ export default function BuzonQuejas({tipoViolenciaOptions=[]}) {
           </div>
           <hr className="bg-[#F2EDED]" />
           <p className="text-sm text-[#4E4E4E] dark:text-white">Este buzón es un espacio seguro donde puedes reportar cualquier situación de violencia de género que hayas sufrido o presenciado. Toda la información se manejará con estricta confidencialidad y se dará seguimiento conforme a la normativa vigente.</p>
-          <p className="text-sm text-[#96559B] font-semibold italic dark:text-white">*Tus datos personales son opcionales. Si prefieres mantener el anonimato, puedes omitir los campos de identificación. Tu seguridad y privacidad son nuestra prioridad.</p>
+          <p className="text-sm text-[#96559B] font-semibold italic dark:text-primary-400">*Tus datos personales son opcionales. Si prefieres mantener el anonimato, puedes omitir los campos de identificación. Tu seguridad y privacidad son nuestra prioridad.</p>
         </div>
         <div className="formulario">
           <FormularioBuzon tipoViolencia={tipoViolenciaOptions}/>
