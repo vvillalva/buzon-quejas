@@ -1,4 +1,3 @@
-import ChartDashboard from '@/components/buzon/chart-dashboard';
 import { columnasQuejas } from '@/components/buzon/columns';
 import { DataTable } from '@/components/buzon/data-table';
 import Encabezados from '@/components/buzon/encabezados';

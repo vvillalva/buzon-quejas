@@ -1,5 +1,5 @@
 "use client"
- 
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,7 +12,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table"
- 
+
 import {
   Table,
   TableBody,
@@ -41,7 +41,7 @@ interface DataTableProps<TData, TValue> {
   pagination?: boolean;
 }
 
-export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado=false, titulo="", subtitle="", resourceName="", pagination=true}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado = false, titulo = "", subtitle = "", resourceName = "", pagination = true }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
   return (
     <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs">
       {encabezado && <Encabezados title={titulo} subtitle={subtitle} />}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row justify-between">
         <Input
           placeholder={placeholderFilter}
           value={(table.getColumn(`${filter}`)?.getFilterValue() as string) ?? ""}
@@ -81,11 +81,12 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
         {resourceName && (
           <Link
             href={route(`${resourceName}.create`)}
-            className="px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"
+            className=" px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"
           >
             <Plus size={16} /> Agregar Opción
           </Link>
-        )}      </div>
+        )}
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

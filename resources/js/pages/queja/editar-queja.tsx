@@ -58,7 +58,7 @@ export default function EditarQueja({ queja }: EditarQuejaProps) {
                 <Encabezados title="Editar queja" subtitle="Cambia el estatus de la queja que estas visualizando." />
                 <form onSubmit={editaQueja}>
                     <div className='flex flex-col border border-neutral-100 gap-2 p-4 rounded'>
-                        <div className='encabezado flex flex-row justify-between'>
+                        <div className='encabezado flex flex-col lg:flex-row justify-between gap-4'>
                             <div className='flex flex-col gap-1'>
                                 <p className='text-3xl font-semibold'>Queja #{queja.folio}</p>
                                 <small>Esta es la información completa de la queja generada por medio del buzon.</small>
@@ -67,7 +67,7 @@ export default function EditarQueja({ queja }: EditarQuejaProps) {
                                 value={data.estatus}
                                 onValueChange={(value) => setData('estatus', value)}
                             >
-                                <SelectTrigger className="w-[180px]">
+                                <SelectTrigger className="lg:w-[180px] w-full">
                                     <SelectValue placeholder={data.estatus.charAt(0).toUpperCase() + queja.estatus.slice(1)} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -91,7 +91,7 @@ export default function EditarQueja({ queja }: EditarQuejaProps) {
                             </div>
                         </div>
                         <div className='flex flex-row justify-end pt-2'>
-                            <Button type='submit' className='px-10'>Guardar</Button>
+                            <Button type='submit' className='px-10 lg:w-fit w-full'>Guardar</Button>
                         </div>
                     </div>
                 </form>
