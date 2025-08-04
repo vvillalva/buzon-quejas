@@ -9,7 +9,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
@@ -18,11 +17,13 @@ import {
 export const description = "Grafica de los Tipo de Violencia por Semestre"
 
 const colorPalette = [
-    "#E57373",
-    "#F06292",
-    "#BA68C8",
-    "#64B5F6",
-    "#4DB6AC",
+    "var(--chart-1)",
+    "var(--chart-2)",
+    "var(--chart-3)",
+    "var(--chart-4)",
+    "var(--chart-5)",
+    "var(--chart-6)",
+    "var(--chart-7)",
     // Agrega más colores si necesitas
 ];
 type ChartConfig = {
@@ -31,49 +32,44 @@ type ChartConfig = {
         color?: string;
     }
 };
-const chartConfig = {
-    total: {
-        label: "Total quejas",
-    },
-    economica: {
-        label: "Economica",
-        color: "var(--chart-1)",
-    },
-    fisica: {
-        label: "Fisica",
-        color: "var(--chart-2)",
-    },
-    psicologica: {
-        label: "Psicologica",
-        color: "var(--chart-3)",
-    },
-    Sexual: {
-        label: "Sexual",
-        color: "var(--chart-4)",
-    },
-    otra: {
-        label: "Otros",
-        color: "var(--chart-5)",
-    },
-} satisfies ChartConfig
-
 interface TipoSemestre {
     anio: string;
     semestre: string;
     tipo_violencia: string;
     total: string;
 }
-
 interface ChartTipoDeViolenciaProps {
     tipo: TipoSemestre[];
 }
 
+//TODO: GENERAR EL CHARTCONFIG DINAMICO COMO EL DE quejas-chart
+
 export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
+    // Extraer tipos únicos de violencia
+    const tiposUnicos = [
+        ...new Set(tipo.map((item) => item.tipo_violencia.toLowerCase())),
+    ];
     //Filtramos Data por Semestre Enero-Junio / Julio-Diciembre
     const fechaActual = new Date();
     const anioActual = fechaActual.getFullYear().toString();
     const mesActual = fechaActual.getMonth() + 1;
     const semestreActual = mesActual >= 7 ? "2" : "1";
+
+    // Crear el chartConfig dinámicamente
+    const chartConfig: Record<string, { label: string; color?: string }> = {
+        total: {
+            label: "Total quejas",
+        },
+    };
+
+    tiposUnicos.forEach((tipo, idx) => {
+        const label = tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase();
+        chartConfig[tipo] = {
+            label,
+            color: colorPalette[idx % colorPalette.length], // ciclo de colores
+        };
+    });
+
     const dataFiltrada = tipo.filter(
         (item) =>
             item.anio === anioActual && item.semestre === semestreActual
@@ -83,12 +79,12 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
         total: Number(total),
         fill: colorPalette[idx % colorPalette.length], // <-- así recorres la paleta cíclicamente
     }));
-
     const maxIndex = chartData.reduce(
         (maxIdx, item, idx, arr) =>
             item.total > arr[maxIdx].total ? idx : maxIdx,
         0
     );
+
     return (
         <div className="w-full">
             <Card>
@@ -105,6 +101,7 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
                         <BarChart accessibilityLayer data={chartData}>
                             <CartesianGrid vertical={false} />
                             <XAxis
+                                className="text-[10px]"
                                 dataKey="tipo_violencia"
                                 tickLine={false}
                                 tickMargin={10}
