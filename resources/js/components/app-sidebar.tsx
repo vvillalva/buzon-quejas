@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, ChartLine, List, Mailbox } from 'lucide-react';
+import { LayoutGrid, ChartLine, List, Mailbox, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -33,6 +33,11 @@ const mainNavItems: NavItem[] = [
                 url: '/tipo-de-violencia'
             }
         ]
+    },
+    {
+        title: 'Usuarios',
+        href: '/usuarios',
+        icon: Users,
     },
 ];
 

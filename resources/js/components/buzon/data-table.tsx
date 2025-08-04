@@ -39,9 +39,10 @@ interface DataTableProps<TData, TValue> {
   subtitle?: string;
   resourceName?: string;
   pagination?: boolean;
+  labelButton?: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado = false, titulo = "", subtitle = "", resourceName = "", pagination = true }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado = false, titulo = "", subtitle = "", resourceName = "", pagination = true, labelButton = "Agregar Opción"}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -83,7 +84,7 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
             href={route(`${resourceName}.create`)}
             className=" px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"
           >
-            <Plus size={16} /> Agregar Opción
+            <Plus size={16} /> {labelButton}
           </Link>
         )}
       </div>

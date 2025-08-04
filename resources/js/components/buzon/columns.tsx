@@ -18,8 +18,14 @@ export type ColumnaCatalogo = {
 }
 
 function handleDelete(id: number, resourceName: string) {
-    if (confirm("Estas seguro de eliminar el dato?")) {
+    if (confirm("¿Estas seguro de eliminar el dato?")) {
         router.delete(route(`${resourceName}.destroy`, id))
+    }
+}
+
+function handleDeleteUser(id:number){
+    if (confirm("¿Estas seguro de eliminar el usuario?")) {
+        router.delete(route('usuarios.destroy', id))
     }
 }
 
@@ -185,7 +191,7 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
                 text = <p className="text-yellow-500">En Curso</p>;
                 badgeClass += " border-yellow-500 text-yellow-600 bg-status-card";
             } else {
-                icon = <Loader/>;
+                icon = <Loader />;
                 text = <p>Pendiente</p>;
                 badgeClass += " border-neutral-500 bg-status-card";
             }
@@ -326,3 +332,97 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
         },
     },
 ]
+
+export type ColumnaUsuario = {
+    id: number;
+    nombre: string;
+    correo: string;
+    rol: string;
+}
+
+export const ColumnaUsuarios: ColumnDef<ColumnaUsuario>[] = [
+    {
+        accessorKey: "id",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Identificador
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('id')}</span></div>
+    },
+    {
+        accessorKey: "nombre",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Usuario
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('nombre')}</span></div>
+    },
+    {
+        accessorKey: "correo",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Correo
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3"><span>{row.getValue('correo')}</span></div>
+    },
+    {
+        accessorKey: "rol",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Rol
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="w-full pl-3 uppercase"><span>{row.getValue('rol')}</span></div>
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => (
+            <div className="flex flex-row justify-end">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+                            size="icon"
+                        >
+                            <EllipsisVertical />
+                            <span className="sr-only">Opciones</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-32">
+                        <DropdownMenuItem ><Link href={route('usuarios.edit', row.original.id)} className="w-full">Editar</Link></DropdownMenuItem>
+                        <DropdownMenuItem variant="destructive" onClick={() => handleDeleteUser(row.original.id)}>Borrar</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+        )
+    }
+]
+
