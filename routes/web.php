@@ -4,6 +4,7 @@ use App\Http\Controllers\EstadisticaController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\QuejaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 // O si vas directo a la vista de buzon
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('estadisticas', EstadisticaController::class)->names('estadisticas');
     Route::resource('tipo-de-violencia',  OptionController::class)->names('tipo-de-violencia');
     Route::resource('usuarios', UserController::class)->names('usuarios');
+    Route::resource('roles', RoleController::class)->names('roles');
 });
 
 require __DIR__.'/settings.php';

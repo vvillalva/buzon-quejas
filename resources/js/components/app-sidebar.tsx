@@ -4,8 +4,9 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, ChartLine, List, Mailbox, Users } from 'lucide-react';
+import { LayoutGrid, ChartLine, List, Mailbox, Users, Shield } from 'lucide-react';
 import AppLogo from './app-logo';
+import { NavAdmin } from './nav-admin';
 
 const mainNavItems: NavItem[] = [
     {
@@ -34,10 +35,17 @@ const mainNavItems: NavItem[] = [
             }
         ]
     },
+];
+const adminNavItems: NavItem[] = [
     {
         title: 'Usuarios',
         href: '/usuarios',
         icon: Users,
+    },
+    {
+        title: 'Roles',
+        href: '/roles',
+        icon: Shield,
     },
 ];
 
@@ -72,6 +80,7 @@ export function AppSidebar() {
 
             <SidebarContent>
                 <NavMain items={mainNavItems} />
+                <NavAdmin items={adminNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

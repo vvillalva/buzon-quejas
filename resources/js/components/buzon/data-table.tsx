@@ -1,5 +1,3 @@
-"use client"
-
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -23,17 +21,18 @@ import {
 } from "@/components/ui/table"
 import { Input } from "../ui/input"
 import { Link } from "@inertiajs/react"
-import { useState } from "react"
+import { act, useState } from "react"
 import { Plus } from "lucide-react"
 import Encabezados from "./encabezados"
 import { title } from "process"
 import { Pagination } from "../pagination"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  placeholderFilter: string;
-  filter: string;
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  activeFilter?: boolean;
+  placeholderFilter?: string;
+  filter?: string;
   encabezado?: boolean;
   titulo?: string;
   subtitle?: string;
@@ -42,7 +41,7 @@ interface DataTableProps<TData, TValue> {
   labelButton?: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data, placeholderFilter, filter, encabezado = false, titulo = "", subtitle = "", resourceName = "", pagination = true, labelButton = "Agregar Opción"}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, placeholderFilter, activeFilter = true, filter, encabezado = false, titulo = "", subtitle = "", resourceName = "", pagination = true, labelButton = "Agregar Opción"}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -70,24 +69,26 @@ export function DataTable<TData, TValue>({ columns, data, placeholderFilter, fil
   return (
     <div className="flex flex-col gap-4 border p-6 rounded-xl shadow-2xs bg-card">
       {encabezado && <Encabezados title={titulo} subtitle={subtitle} />}
-      <div className="flex flex-col gap-4 lg:flex-row justify-between">
-        <Input
-          placeholder={placeholderFilter}
-          value={(table.getColumn(`${filter}`)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn(`${filter}`)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        {resourceName && (
-          <Link
-            href={route(`${resourceName}.create`)}
-            className=" px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"
-          >
-            <Plus size={16} /> {labelButton}
-          </Link>
-        )}
-      </div>
+      {activeFilter &&
+        <div className="flex flex-col gap-4 lg:flex-row justify-between">
+          <Input
+            placeholder={placeholderFilter}
+            value={(table.getColumn(`${filter}`)?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn(`${filter}`)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+          {resourceName && (
+            <Link
+              href={route(`${resourceName}.create`)}
+              className=" px-3 py-1 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 rounded flex flex-row items-center gap-1"
+            >
+              <Plus size={16} /> {labelButton}
+            </Link>
+          )}
+        </div>
+      }
       <div className="rounded-md border">
         <Table>
           <TableHeader>
