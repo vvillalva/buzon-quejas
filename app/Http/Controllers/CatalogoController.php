@@ -23,7 +23,7 @@ class CatalogoController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("catalogos/agregar-catalogo");
     }
 
     /**

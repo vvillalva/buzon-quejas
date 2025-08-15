@@ -19,9 +19,9 @@ export default function Dashboard({ buzon=[] , totalQuejasTipo }:{ buzon : [], t
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-8 overflow-x-auto">
                 <Encabezados title="Dashboard" subtitle="Revisa las quejas que se han genero y los datos estadisticos historicos." />
-                {/* <div className="@container/main flex flex-1 flex-col gap-4">
+                <div className="@container/main flex flex-1 flex-col gap-4">
                     <QuejasChart data={totalQuejasTipo} />
-                </div> */}
+                </div>
                 <div className="flex h-full flex-1 flex-col gap-4 rounded-xl">
                     <DataTable
                         columns={columnasQuejas}
