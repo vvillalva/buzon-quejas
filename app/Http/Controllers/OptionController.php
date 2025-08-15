@@ -18,7 +18,7 @@ class OptionController extends Controller
         $routeName = $request->route()->getName(); // e.g., "tipo-de-violencia.index"
         $resourceName = explode('.', $routeName)[0]; // "tipo-de-violencia"
 
-        return Inertia::render("catalogo/lista-opciones", [
+        return Inertia::render("opciones/lista-opciones", [
             'opciones' => Option::all(),
             'resourceName' => $resourceName,
         ]);
@@ -43,7 +43,7 @@ class OptionController extends Controller
         // El nombre de la ruta puede ser por ejemplo "tipo-de-violencia.index"
         $routeName = $request->route()->getName(); // e.g., "tipo-de-violencia.index"
         $resourceName = explode('.', $routeName)[0]; // "tipo-de-violencia"
-        return Inertia::render("catalogo/agregar-opcion", [
+        return Inertia::render("opciones/agregar-opcion", [
             'catalogos' => Catalogo::all(),
             'resourceName' => $resourceName,
         ]);
@@ -92,7 +92,7 @@ class OptionController extends Controller
         $routeName = $request->route()->getName(); // e.g., "tipo-de-violencia.index"
         $resourceName = explode('.', $routeName)[0]; // "tipo-de-violencia"
         $option = Option::find($id);
-        return Inertia::render("catalogo/editar-opcion", [
+        return Inertia::render("opciones/editar-opcion", [
             "opcion" => $option,
             'resourceName' => $resourceName,
         ]);

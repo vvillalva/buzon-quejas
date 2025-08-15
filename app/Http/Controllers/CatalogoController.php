@@ -13,7 +13,9 @@ class CatalogoController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render("catalogos/lista-catalogos", [
+            'catalogos' => Catalogo::all()
+        ]);
     }
 
     /**

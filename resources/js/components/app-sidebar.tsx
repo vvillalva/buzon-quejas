@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/react';
 import { LayoutGrid, ChartLine, List, Mailbox, Users, Shield } from 'lucide-react';
 import AppLogo from './app-logo';
 import { NavAdmin } from './nav-admin';
+import { NavOpciones } from './nav-opciones';
 
 const mainNavItems: NavItem[] = [
     {
@@ -49,6 +50,14 @@ const adminNavItems: NavItem[] = [
     },
 ];
 
+const catalogoNavItems: NavItem[] = [
+    {
+        title: 'Lista de Catalogos',
+        href: '/catalogos',
+        icon: List,
+    }
+]
+
 // Habilitar si se requiere un navbar en la parte del footer
 // const footerNavItems: NavItem[] = [
 //     {
@@ -81,8 +90,9 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems} />
                 <NavAdmin items={adminNavItems} />
+                <NavOpciones items={catalogoNavItems} titulo="Catálogos" />
             </SidebarContent>
-
+            
             <SidebarFooter>
                 {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
                 <NavUser />
