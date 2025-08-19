@@ -13,7 +13,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 //TODO: HACER QUE EL USUARIO QUE TENGA ROL DE ADMINISTRADOR PUEDA VER ESTA VISTA
-export default function ListaUsuarios({ users=[]}:{ users : []}) {
+export default function ListaUsuarios({ users = []}:{ users : []}) {
     console.log(users)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
