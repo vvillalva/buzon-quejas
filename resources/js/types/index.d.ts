@@ -1,6 +1,33 @@
 import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
 
+export const ACTIONS = ["ver", "crear", "editar", "eliminar"] as const;
+export const DOMAINS = [
+  "catalogos",
+  "estadisticas",
+  "opciones",
+  "quejas",
+  "roles",
+  "usuarios",
+] as const;
+
+export type Action = typeof ACTIONS[number];
+export type Domain = typeof DOMAINS[number];
+
+// "ver.usuarios" | "crear.opciones" | ...
+export type Permission = `${Action}.${Domain}`;
+
+// Si tu formulario guarda permisos:
+export interface RoleForm {
+  permissions: Permission[]; // arreglo estrictamente tipado
+}
+
+type Permission = `${"ver"|"crear"|"editar"|"eliminar"}.${"catalogos"|"estadisticas"|"opciones"|"quejas"|"roles"|"usuarios"}`;
+type RoleFormData = {
+  name: string;
+  permissions: Permission[]; // <<— importante: string[]
+};
+
 export interface Auth {
     user: User;
 }

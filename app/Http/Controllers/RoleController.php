@@ -15,7 +15,7 @@ class RoleController extends Controller
     public function index()
     {
         return Inertia::render("admin/roles/lista-roles", [
-            'roles' => Role::all()
+            'roles' => Role::with("permissions")->get()
         ]);
     }
 
@@ -34,7 +34,16 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            "name" => "required",
+            "permissions" => "required|array|min:1"
+        ]);
+
+        $role = Role::create(["name" => $request->name]);
+
+        $role->syncPermissions($request->permissions);
+
+        return to_route("roles.index");
     }
 
     /**
@@ -50,7 +59,12 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $role = Role::find($id);
+        return Inertia::render("admin/roles/editar-rol", [
+            "role" => $role,
+            "rolePermissions" => $role->permissions->pluck("name"),
+            "permissions" => Permission::pluck("name")
+        ]);
     }
 
     /**
@@ -58,7 +72,19 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            "name" => "required",
+            "permissions" => "required"
+        ]);
+
+        $role = Role::find($id);
+
+        $role->name = $request->name;
+        $role->save();
+
+        $role->syncPermissions($request->permissions);
+
+        return to_route("roles.index");
     }
 
     /**
@@ -66,6 +92,8 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Role::destroy($id);
+
+        return to_route("roles.index");
     }
 }

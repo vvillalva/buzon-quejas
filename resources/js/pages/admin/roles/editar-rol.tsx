@@ -21,84 +21,91 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function EditarRol() {
+export default function EditarRol({role, rolePermissions, permissions}) {
+
+    const { data, setData, errors, put, processing } = useForm<{ name: string; permissions: string[] }>({
+        name: role.name || ' ',
+        permissions: rolePermissions || [],
+    });
+
+    function handleCheckboxChange(permissionName: string, checked: boolean) {
+        setData(
+            'permissions',
+            checked ? Array.from(new Set([...data.permissions, permissionName])) : data.permissions.filter((p) => p !== permissionName),
+        );
+    }
+
+    const editRol: FormEventHandler = (e) => {
+        e.preventDefault();
+        put(route('roles.update', role.id));
+    };
+    
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Editar Usuario" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-8 overflow-x-auto">
-                <Encabezados title="Editar datos de la opción" subtitle="Modifica los datos de la opción en caso que haya cambiando su valor. " />
+            <Head title="Editar Rol" />
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-8">
+                <Encabezados title="Editar los permisos del rol" subtitle="Modifica los permisos del rol en caso que haya cambiando su valor. " />
                 <Separator />
                 <div className="datos-cedula flex flex-col gap-8">
                     <div className="encabezado">
-                        <h4 className="text-[#333333] text-xl font-semibold">Datos del usuario</h4>
-                        <p className="text-[#787878]">Modifica los datos del usuario si se requiere realizar cambios en su información.</p>
+                        <h4 className="text-xl font-semibold text-[#333333]">Datos del rol</h4>
+                        <p className="text-[#787878]">Modifica los datos del rol si se requiere realizar cambios en su información.</p>
                     </div>
                 </div>
-                {/* <form onSubmit={editUsuario} className="flex flex-col gap-6">
-                    <div className="nombre w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
+                <form onSubmit={editRol} className="flex flex-col gap-6">
+                    <div className="nombre flex w-full flex-col gap-4 lg:flex-row lg:gap-[180px]">
                         <div className="w-full lg:w-[300px]">
-                            <Label id='nombre' className="font-medium">Nombre</Label>
+                            <Label id="name" className="font-medium">
+                                Nombre
+                            </Label>
                         </div>
-                        <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+                        <div className="flex w-full flex-col gap-4 lg:w-[405px]">
                             <div className="flex flex-col gap-2">
                                 <Input
-                                    id='nombre'
+                                    id="name"
                                     type="text"
-                                    value={data.nombre}
-                                    onChange={(e) => setData('nombre', e.target.value)}
-                                    placeholder='Nombre de catalogo...'
+                                    value={data.name}
+                                    required
+                                    onChange={(e) => setData('name', e.target.value)}
+                                    placeholder="Nombre del rol..."
                                 />
-                                {errors.nombre
-                                    ? <InputError message={errors.nombre} />
-                                    : <Label className="text-muted-foreground text-sm font-normal">Ingresa un nombre claro y fácil de entender.</Label>
-                                }
+                                {errors.name ? (
+                                    <InputError message={errors.name} />
+                                ) : (
+                                    <Label className="text-sm font-normal text-muted-foreground">Ingresa un nombre claro y fácil de entender.</Label>
+                                )}
                             </div>
                         </div>
                     </div>
-                    <div className="correo w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
+                    <div className="permisos flex w-full flex-col gap-4">
                         <div className="w-full lg:w-[300px]">
-                            <Label id='email' className="font-medium">Correo</Label>
+                            <Label id="permissions" className="font-medium">
+                                Permisos
+                            </Label>
                         </div>
-                        <div className="flex flex-col gap-4 w-full lg:w-[405px]">
-                            <div className="flex flex-col gap-2">
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    autoFocus
-                                    autoComplete="email"
-                                    value={data.correo}
-                                    onChange={(e) => setData('correo', e.target.value)}
-                                    placeholder="email@example.com"
-                                />
-                                <InputError message={errors.correo} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="contraseña w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
-                        <div className="w-full lg:w-[300px]">
-                            <Label id='password' className="font-medium">Contraseña</Label>
-                        </div>
-                        <div className="flex flex-col gap-4 w-full lg:w-[405px]">
-                            <div className="flex flex-col gap-2">
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    value={data.password}
-                                    onChange={(e) => setData('password', e.target.value)}
-                                    placeholder="Contraseña"
-                                />
-                                <InputError message={errors.password} />
-                            </div>
+                        <div className="flex w-full flex-wrap gap-10">
+                            {permissions.map((item:string) => (
+                                <label key={item} className="flex w-fit items-center gap-2">
+                                    <input
+                                        id={item}
+                                        type="checkbox"
+                                        value={item}
+                                        checked={data.permissions.includes(item)} // <-- Añadido para reflejar el estado
+                                        onChange={(e) => handleCheckboxChange(item, e.target.checked)}
+                                    />
+                                    <span className="text-sm font-medium capitalize">{item}</span>
+                                </label>
+                            ))}
                         </div>
                     </div>
                     <Separator />
                     <div className="flex flex-row justify-end">
-                        <Button disabled={processing} type="submit" className="md:w-[140px] w-full">
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}Guardar</Button>
+                        <Button disabled={processing} type="submit" className="w-full md:w-[140px]">
+                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}Guardar
+                        </Button>
                     </div>
-                </form> */}
+                </form>
             </div>
         </AppLayout>
-    )
+    );
 }
