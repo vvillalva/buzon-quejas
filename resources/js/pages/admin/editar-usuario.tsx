@@ -9,6 +9,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -29,7 +30,13 @@ interface Usuario {
     password: string;
 }
 
-export default function EditarUsuario({ user }: { user : Usuario }) {
+interface RolProps{
+    id: number;
+    name: string;
+}
+
+
+export default function EditarUsuario({ user , roles }: { user : Usuario , roles: RolProps[] }) {
     const { data, setData, errors, put, processing } = useForm({
         nombre: user.nombre,
         correo: user.correo,
@@ -44,41 +51,46 @@ export default function EditarUsuario({ user }: { user : Usuario }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Editar Usuario" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-8 overflow-x-auto">
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-8">
                 <Encabezados title="Editar datos de la opción" subtitle="Modifica los datos de la opción en caso que haya cambiando su valor. " />
                 <Separator />
                 <div className="datos-cedula flex flex-col gap-8">
                     <div className="encabezado">
-                        <h4 className="text-[#333333] text-xl font-semibold">Datos del usuario</h4>
+                        <h4 className="text-xl font-semibold text-[#333333]">Datos del usuario</h4>
                         <p className="text-[#787878]">Modifica los datos del usuario si se requiere realizar cambios en su información.</p>
                     </div>
                 </div>
                 <form onSubmit={editUsuario} className="flex flex-col gap-6">
-                    <div className="nombre w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
+                    <div className="nombre flex w-full flex-col gap-4 lg:flex-row lg:gap-[180px]">
                         <div className="w-full lg:w-[300px]">
-                            <Label id='nombre' className="font-medium">Nombre</Label>
+                            <Label id="nombre" className="font-medium">
+                                Nombre
+                            </Label>
                         </div>
-                        <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+                        <div className="flex w-full flex-col gap-4 lg:w-[405px]">
                             <div className="flex flex-col gap-2">
                                 <Input
-                                    id='nombre'
+                                    id="nombre"
                                     type="text"
                                     value={data.nombre}
                                     onChange={(e) => setData('nombre', e.target.value)}
-                                    placeholder='Nombre de catalogo...'
+                                    placeholder="Nombre de catalogo..."
                                 />
-                                {errors.nombre
-                                    ? <InputError message={errors.nombre} />
-                                    : <Label className="text-muted-foreground text-sm font-normal">Ingresa un nombre claro y fácil de entender.</Label>
-                                }
+                                {errors.nombre ? (
+                                    <InputError message={errors.nombre} />
+                                ) : (
+                                    <Label className="text-sm font-normal text-muted-foreground">Ingresa un nombre claro y fácil de entender.</Label>
+                                )}
                             </div>
                         </div>
                     </div>
-                    <div className="correo w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
+                    <div className="correo flex w-full flex-col gap-4 lg:flex-row lg:gap-[180px]">
                         <div className="w-full lg:w-[300px]">
-                            <Label id='email' className="font-medium">Correo</Label>
+                            <Label id="email" className="font-medium">
+                                Correo
+                            </Label>
                         </div>
-                        <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+                        <div className="flex w-full flex-col gap-4 lg:w-[405px]">
                             <div className="flex flex-col gap-2">
                                 <Input
                                     id="email"
@@ -93,11 +105,13 @@ export default function EditarUsuario({ user }: { user : Usuario }) {
                             </div>
                         </div>
                     </div>
-                    <div className="contraseña w-full flex flex-col gap-4 lg:flex-row lg:gap-[180px] ">
+                    <div className="contraseña flex w-full flex-col gap-4 lg:flex-row lg:gap-[180px]">
                         <div className="w-full lg:w-[300px]">
-                            <Label id='password' className="font-medium">Contraseña</Label>
+                            <Label id="password" className="font-medium">
+                                Contraseña
+                            </Label>
                         </div>
-                        <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+                        <div className="flex w-full flex-col gap-4 lg:w-[405px]">
                             <div className="flex flex-col gap-2">
                                 <Input
                                     id="password"
@@ -111,13 +125,38 @@ export default function EditarUsuario({ user }: { user : Usuario }) {
                             </div>
                         </div>
                     </div>
+                    <div className="rol flex w-full flex-col gap-4 lg:flex-row lg:gap-[180px]">
+                        <div className="w-full lg:w-[300px]">
+                            <Label id="rol" className="font-medium">
+                                Rol
+                            </Label>
+                        </div>
+                        <div className="flex w-full flex-col gap-4 lg:w-[405px]">
+                            <div className="flex flex-col gap-2">
+                                <Select value={data.rol} onValueChange={(value) => setData('rol', value)}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder={data.rol} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {roles.map((rol) => (
+                                            <SelectItem key={rol.id} value={rol.name}>
+                                                {rol.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <InputError message={errors.rol} />
+                            </div>
+                        </div>
+                    </div>
                     <Separator />
                     <div className="flex flex-row justify-end">
-                        <Button disabled={processing} type="submit" className="md:w-[140px] w-full">
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}Guardar</Button>
+                        <Button disabled={processing} type="submit" className="w-full md:w-[140px]">
+                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}Guardar
+                        </Button>
                     </div>
                 </form>
             </div>
         </AppLayout>
-    )
+    );
 }
