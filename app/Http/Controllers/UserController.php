@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,7 +26,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render("admin/agregar-usuario");
+        return Inertia::render("admin/agregar-usuario", [
+            "roles" => Role::all(),
+        ]);
     }
 
     /**
@@ -47,11 +51,13 @@ class UserController extends Controller
             ]
         );
 
-        User::create(
+        $user = User::create(
             $request->only(["nombre", "correo", "rol"])
             +
             ["password" => Hash::make($request->password)]
         );
+
+        $user->syncRoles([$request->rol]);
 
         return to_route('usuarios.index');
     }
@@ -71,7 +77,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
         return Inertia::render("admin/editar-usuario", [
-            'user' => $user
+            'user' => $user,
+            "roles" => Role::all(),
         ]);
     }
 
@@ -84,6 +91,7 @@ class UserController extends Controller
             [
                 "nombre",
                 "correo",
+                "rol"
             ]
         );
 
@@ -91,12 +99,16 @@ class UserController extends Controller
 
         $user->nombre = $request->input('nombre');
         $user->correo = $request->input('correo');
+        $user->rol = $request->input('rol');
 
         if($request->password){
             $user->password = Hash::make($request->password);
         }
 
         $user->save();
+
+        $user->syncRoles([$request->rol]);
+
 
         return to_route("usuarios.index");
 

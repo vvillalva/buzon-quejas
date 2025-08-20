@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, CircleCheck, EllipsisVertical, Loader, LoaderCircle } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
+import { can } from '@/lib/can';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -68,24 +69,30 @@ export const columnasCatalogo: ColumnDef<ColumnaCatalogo>[] = [
     {
         id: 'actions',
         cell: ({ row }) => (
-            <div className="flex flex-row justify-end">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-                            <EllipsisVertical />
-                            <span className="sr-only">Opciones</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-32">
-                        <DropdownMenuItem>
-                            <Link href={route('catalogos.edit', row.original.id)} className="w-full">
-                                Editar
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive">Borrar</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+            <>
+                {(can('editar.catalogos') || can('eliminar.catalogos')) && (
+                    <div className="flex flex-row justify-end">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                                    <EllipsisVertical />
+                                    <span className="sr-only">Opciones</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-32">
+                                {can('editar.catalogos') && (
+                                    <DropdownMenuItem>
+                                        <Link href={route('catalogos.edit', row.original.id)} className="w-full">
+                                            Editar
+                                        </Link>
+                                    </DropdownMenuItem>
+                                )}
+                                {can('eliminar.catalogos') && <DropdownMenuItem variant="destructive">Borrar</DropdownMenuItem>}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                )}
+            </>
         ),
     },
 ];
@@ -236,23 +243,29 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
         id: 'actions',
         cell: ({ row }) => {
             return (
-                <div className="flex flex-row justify-end">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-                                <EllipsisVertical />
-                                <span className="sr-only">Opciones</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-32">
-                            <DropdownMenuItem>
-                                <Link href={route('editar-queja', row.original.id)} className="w-full">
-                                    Editar
-                                </Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
+                <>
+                    {can('editar.quejas') && (
+                        <div className="flex flex-row justify-end">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                                        <EllipsisVertical />
+                                        <span className="sr-only">Opciones</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-32">
+                                    <DropdownMenuItem>
+                                        {can('editar.quejas') && (
+                                            <Link href={route('editar-queja', row.original.id)} className="w-full">
+                                                Editar
+                                            </Link>
+                                        )}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    )}
+                </>
             );
         },
     },
@@ -263,6 +276,43 @@ export type ColumnaOpcion = {
     nombre: string;
     estatus: string;
 };
+
+type RowData = { id: number };
+
+function ActionsCell({ row }: { row: { original: RowData } }) {
+    const { props } = usePage<{ resourceName?: string }>();
+    const resourceName = props.resourceName;
+    return (
+        <>
+            {(can('editar.opciones') || can('eliminar.opciones')) && (
+                <div className="flex flex-row justify-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                                <EllipsisVertical />
+                                <span className="sr-only">Opciones</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32">
+                            {can('editar.opciones') && (
+                                <DropdownMenuItem>
+                                    <Link href={route(`${resourceName}.edit`, row.original.id)} className="w-full">
+                                        Editar
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {can('eliminar.opciones') && (
+                                <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id, resourceName ?? '')}>
+                                    Borrar
+                                </DropdownMenuItem>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )}
+        </>
+    );
+}
 
 export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
     {
@@ -311,33 +361,7 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
     },
     {
         id: 'actions',
-        cell: ({ row }) => {
-            const { props } = usePage<{ resourceName?: string }>();
-            const resourceName = props.resourceName;
-
-            return (
-                <div className="flex flex-row justify-end">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-                                <EllipsisVertical />
-                                <span className="sr-only">Opciones</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-32">
-                            <DropdownMenuItem>
-                                <Link href={route(`${resourceName}.edit`, row.original.id)} className="w-full">
-                                    Editar
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id, resourceName ?? '')}>
-                                Borrar
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-            );
-        },
+        cell: ({ row }) => <ActionsCell row={row} />,
     },
 ];
 
