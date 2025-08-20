@@ -3,12 +3,13 @@ import { Head } from '@inertiajs/react';
 //** Components  */
 import DatosQueja from '@/components/buzon/datos-queja';
 import Encabezados from '@/components/buzon/encabezados';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 //** Assets  */
 //** Interface or Types  */
 import type { BreadcrumbItem } from '@/types';
+import { CircleCheck, Loader, LoaderCircle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 interface Queja {
     id: number;
     nombre: string;
@@ -36,6 +37,25 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function VerQueja({ queja }: EditarQuejaProps) {
+    const estatus = queja.estatus;
+    // Puedes usar colores diferentes para cada estatus si quieres
+    let icon = null;
+    let text = null;
+    let badgeClass = 'text-muted-foreground px-1.5';
+    
+    if (estatus === 'atendido') {
+        icon = <CircleCheck className="fill-green-600 text-green-300 dark:fill-green-700" />;
+        text = <p className="text-green-700 dark:text-green-500">Atendido</p>;
+        badgeClass += ' border-green-600 bg-status-card'; // Puedes agregar más clases
+    } else if (estatus === 'en-curso') {
+        icon = <LoaderCircle className="animate-spin text-yellow-500" />;
+        text = <p className="text-yellow-500">En Curso</p>;
+        badgeClass += ' border-yellow-500 text-yellow-600 bg-status-card';
+    } else {
+        icon = <Loader />;
+        text = <p>Pendiente</p>;
+        badgeClass += ' border-neutral-500 bg-status-card';
+    }
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Detalles de Queja" />
@@ -47,7 +67,13 @@ export default function VerQueja({ queja }: EditarQuejaProps) {
                             <p className="text-3xl font-semibold">Queja #{queja.folio}</p>
                             <small>Esta es la información completa de la queja generada por medio del buzon.</small>
                         </div>
+                        <div className='flex flex-col justify-center items-center'>
+                            <Badge variant="outline" className={badgeClass}>
+                                {icon} {text}
+                            </Badge>
+                        </div>
                     </div>
+
                     <Separator />
                     <div className="flex flex-col gap-4 pt-4">
                         <div className="flex flex-wrap gap-2">
