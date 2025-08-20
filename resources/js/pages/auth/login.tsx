@@ -1,21 +1,23 @@
-import { Head, useForm, Link } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
+//** Hooks  */
+import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-
+//** Components  */
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-
+//** Assets  */
+import { LoaderCircle } from 'lucide-react';
+//** Interface or Types  */
 type LoginForm = {
     correo: string;
     password: string;
 };
-
 interface LoginProps {
     status?: string;
 }
+//** Consts or Fuctions*/
 
 export default function Login({ status }: LoginProps) {
     const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
