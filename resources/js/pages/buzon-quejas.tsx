@@ -1,9 +1,21 @@
-
-import FormularioBuzon from "@/components/buzon/formulario-buzon";
-import Header from "@/components/header";
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+//** Hooks  */
 import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+//** Components  */
+import FormularioBuzon from '@/components/buzon/formulario-buzon';
+import Header from '@/components/header';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+//** Assets  */
+//** Interface or Types  */
+//** Consts or Fuctions*/
 
 export default function BuzonQuejas({tipoViolenciaOptions=[]}) {
   const [open, setOpen] = useState(false);

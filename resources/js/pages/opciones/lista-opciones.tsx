@@ -1,9 +1,15 @@
+//** Hooks  */
+import { Head } from '@inertiajs/react';
+//** Components  */
 import { columnasOpciones } from '@/components/buzon/columns';
 import { DataTable }  from '@/components/buzon/data-table';
 import Encabezados from '@/components/buzon/encabezados';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
+//** Consts or Fuctions*/
+
 
 export default function ListaOpciones({ opciones = [], resourceName = "" }) {
     const TITULOS: Record<string, string> = {

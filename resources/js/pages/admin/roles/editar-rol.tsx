@@ -1,3 +1,7 @@
+//** Hooks  */
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+//** Components  */
 import Encabezados from '@/components/buzon/encabezados';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -5,11 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+//** Assets  */
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
-
+//** Interface or Types  */
+import type { RoleFormData, BreadcrumbItem } from '@/types';
+//** Lib or Utils */
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Roles',
@@ -21,8 +26,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function EditarRol({role, rolePermissions, permissions}) {
-
+export default function EditarRol({role, rolePermissions = [], permissions = []}: {role: RoleFormData, rolePermissions: string[], permissions: string[]}) {
     const { data, setData, errors, put, processing } = useForm<{ name: string; permissions: string[] }>({
         name: role.name || ' ',
         permissions: rolePermissions || [],

@@ -1,11 +1,16 @@
+//** Hooks  */
+import { Head } from '@inertiajs/react';
+//** Components  */
 import { ColumnaUsuarios } from '@/components/buzon/columns';
 import { DataTable } from '@/components/buzon/data-table';
 import Encabezados from '@/components/buzon/encabezados';
 import AppLayout from '@/layouts/app-layout';
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
+//** Lib or Utils */
 import { can } from '@/lib/can';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Usuarios',

@@ -1,19 +1,23 @@
+//** Hooks  */
+import { Head } from '@inertiajs/react';
+//** Components  */
 import { columnasQuejas } from '@/components/buzon/columns';
 import { DataTable } from '@/components/buzon/data-table';
 import Encabezados from '@/components/buzon/encabezados';
 import QuejasChart from '@/components/charts/quejas-chart';
 import AppLayout from '@/layouts/app-layout';
+//** Assets  */
+//** Interface or Types  */
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
         href: '/dashboard',
     },
 ];
+
 export default function Dashboard({ buzon=[] , totalQuejasTipo }:{ buzon : [], totalQuejasTipo : [] }) {
-    //TODO: Realizar CRUD para la vista de usuarios, 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />

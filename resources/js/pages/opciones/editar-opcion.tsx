@@ -1,3 +1,7 @@
+//** Hooks  */
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+//** Components  */
 import Encabezados from '@/components/buzon/encabezados';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -6,10 +10,9 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
-
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
 interface Opcion {
     id: number;
     nombre: string;
@@ -17,6 +20,7 @@ interface Opcion {
     created_at?: string
     updated_at?: string
 }
+//** Consts or Fuctions*/
 
 export default function EditarOpcion({ opcion , resourceName = "" }: { opcion: Opcion, resourceName: string }) {
     const TITULOS: Record<string, string> = {
@@ -37,12 +41,10 @@ export default function EditarOpcion({ opcion , resourceName = "" }: { opcion: O
             href: '/',
         },
     ];
-    
     const { data, setData, errors, put } = useForm({
         nombre: opcion.nombre || "",
         estatus: opcion.estatus || "0",
     })
-
     const editOption: FormEventHandler = (e) => {
         e.preventDefault();
         put(route(`${resourceName}.update`, opcion.id))

@@ -1,3 +1,7 @@
+//** Hooks  */
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+//** Components  */
 import Encabezados from '@/components/buzon/encabezados';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -5,11 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+//** Assets  */
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
-
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Catálogos',
@@ -25,7 +29,6 @@ export default function AgregarCatalogo() {
     const { data, setData, errors, post, processing} = useForm({
         nombre: "",
     })
-
     const createCatalogo: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('catalogos.store'))

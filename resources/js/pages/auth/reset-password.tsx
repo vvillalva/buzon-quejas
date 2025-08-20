@@ -1,24 +1,26 @@
+//** Hooks  */
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
-
+//** Components  */
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-
+//** Assets  */
+import { LoaderCircle } from 'lucide-react';
+//** Interface or Types  */
 interface ResetPasswordProps {
     token: string;
     email: string;
 }
-
 type ResetPasswordForm = {
     token: string;
     email: string;
     password: string;
     password_confirmation: string;
 };
+//** Consts or Fuctions*/
 
 export default function ResetPassword({ token, email }: ResetPasswordProps) {
     const { data, setData, post, processing, errors, reset } = useForm<Required<ResetPasswordForm>>({
@@ -27,7 +29,6 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
         password: '',
         password_confirmation: '',
     });
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('password.store'), {

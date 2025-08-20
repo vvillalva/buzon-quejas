@@ -1,10 +1,15 @@
+//** Hooks  */
+import { Head } from '@inertiajs/react';
+//** Components  */
 import { ColumnaRoles } from '@/components/buzon/columns';
 import { DataTable } from '@/components/buzon/data-table';
 import Encabezados from '@/components/buzon/encabezados';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
+//** Lib or Utils */
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Roles',

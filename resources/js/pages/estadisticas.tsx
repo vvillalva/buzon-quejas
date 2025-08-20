@@ -1,12 +1,16 @@
+//** Hooks  */
+import { Head } from '@inertiajs/react';
+//** Components  */
 import Encabezados from '@/components/buzon/encabezados';
 import { EstatusChart } from '@/components/charts/estatus-charts';
 import PersonasChart from '@/components/charts/personas-chart';
 import QuejasChart from '@/components/charts/quejas-chart';
 import { TipoViolenciaChart } from '@/components/charts/tipo-violencia-chart';
 import AppLayout from '@/layouts/app-layout';
+//** Assets  */
+//** Interface or Types  */
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Estadisticas',

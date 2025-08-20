@@ -1,10 +1,14 @@
+//** Hooks  */
+import { Head } from '@inertiajs/react';
+//** Components  */
 import { columnasCatalogo } from '@/components/buzon/columns';
 import { DataTable } from '@/components/buzon/data-table';
 import Encabezados from '@/components/buzon/encabezados';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Catálogos',
@@ -13,7 +17,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function ListaCatalogos({ catalogos=[]}:{ catalogos : []}) {
-    console.log(catalogos)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Lista de Catalogos" />

@@ -1,3 +1,7 @@
+//** Hooks  */
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler, useEffect } from 'react';
+//** Components  */
 import Encabezados from '@/components/buzon/encabezados';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -5,23 +9,22 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
-import { FormEventHandler, useEffect } from 'react';
-
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
 interface Catalogo {
   id: number
   nombre: string
   created_at?: string
   updated_at?: string
 }
+//** Consts or Fuctions*/
 
 export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { catalogos: Catalogo[], resourceName: string }) {
     const TITULOS: Record<string, string> = {
         "tipo-de-violencia": "Tipo de Violencia",
         //Si hay mas catalogos agregarlos
     };
-
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Catalogo',
@@ -36,22 +39,18 @@ export default function AgregarOpcion({ catalogos = [], resourceName = "" }: { c
             href: '/',
         },
     ];
-
     //Obtener el ID del Catalogo para crear la opción
     const nombreCatalogo = TITULOS[resourceName];
-    const catalogoActual = catalogos.find((cat: any) => cat.nombre === nombreCatalogo);
+    const catalogoActual = catalogos.find((cat: Catalogo) => cat.nombre === nombreCatalogo);
     const catalogoId = catalogoActual ? catalogoActual.id : "";
-
     const { data, setData, errors, post } = useForm({
         nombre: "",
         estatus: true,
         catalogo_id: catalogoId
     })
-
     useEffect(() => {
         setData("catalogo_id", catalogoId);
-    }, [catalogoId]);
-
+    }, [catalogoId, setData]);
     const createCatalogo: FormEventHandler = (e) => {
         e.preventDefault();
         post(route(`${resourceName}.store`))

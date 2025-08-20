@@ -1,3 +1,7 @@
+//** Hooks  */
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+//** Components  */
 import Encabezados from '@/components/buzon/encabezados';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -5,12 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem, RoleForm } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+//** Assets  */
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
-
-
+//** Interface or Types  */
+import type { BreadcrumbItem, RoleForm } from '@/types';
+//** Lib or Utils */
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Roles',
@@ -27,19 +31,16 @@ export default function AgregarRol({ permissions }: RoleForm) {
         name: '',
         permissions: [],
     });
-
     function handleCheckboxChange(permissionName: string, checked: boolean) {
         setData(
             'permissions',
             checked ? Array.from(new Set([...data.permissions, permissionName])) : data.permissions.filter((p) => p !== permissionName),
         );
     }
-
     const createRol: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('roles.store'));
     };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Nuevo Rol" />

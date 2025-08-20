@@ -1,7 +1,12 @@
+//** Hooks  */
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+//** Components  */
 import Encabezados from '@/components/buzon/encabezados';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import DatosQueja from '@/components/buzon/datos-queja';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import {
     Select,
     SelectContent,
@@ -9,22 +14,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import DatosQueja from '@/components/buzon/datos-queja';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import { FormEventHandler } from 'react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Quejas',
-        href: '/quejas',
-    },
-    {
-        title: 'Editar Queja',
-        href: '/'
-    }
-];
-
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem } from '@/types';
 interface Queja {
     id: number;
     nombre: string;
@@ -36,21 +28,29 @@ interface Queja {
     created_at: string;
     mensaje:string;
 }
-
 interface EditarQuejaProps {
     queja: Queja
 }
+//** Consts or Fuctions*/
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Quejas',
+        href: '/quejas',
+    },
+    {
+        title: 'Editar Queja',
+        href: '/'
+    }
+];
 
 export default function EditarQueja({ queja }: EditarQuejaProps) {
     const { data, setData, put } = useForm({
         estatus: queja.estatus || "Sin estatus"
     })
-
     const editaQueja: FormEventHandler = (e) => {
         e.preventDefault();
         put(route('update-queja', queja.id))
     };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Editar Queja" />

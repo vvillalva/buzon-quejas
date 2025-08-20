@@ -1,21 +1,22 @@
-// Components
+//** Hooks  */
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
-
+//** Components  */
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import AuthLayout from '@/layouts/auth-layout';
+//** Assets  */
+import { LoaderCircle } from 'lucide-react';
+//** Interface or Types  */
+//** Consts or Fuctions*/
 
 export default function VerifyEmail({ status }: { status?: string }) {
     const { post, processing } = useForm({});
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
         post(route('verification.send'));
     };
-
     return (
         <AuthLayout title="Verify email" description="Please verify your email address by clicking on the link we just emailed to you.">
             <Head title="Email verification" />
