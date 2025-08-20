@@ -141,7 +141,10 @@ class QuejaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $queja = Queja::find($id);
+        return Inertia::render("queja/ver-queja", [
+            "queja" => $queja
+        ]);
     }
 
     /**
@@ -160,11 +163,6 @@ class QuejaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-        \Log::info("Entró al método update-queja", [
-            'input' => $request->all(),
-        ]);
-
         $request->validate(
             [
                 "estatus" => "required"

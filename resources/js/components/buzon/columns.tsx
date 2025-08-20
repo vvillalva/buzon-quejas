@@ -244,7 +244,7 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
         cell: ({ row }) => {
             return (
                 <>
-                    {can('editar.quejas') && (
+                    {(can('editar.quejas') || can('ver.quejas')) && (
                         <div className="flex flex-row justify-end">
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -254,13 +254,20 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-32">
-                                    <DropdownMenuItem>
-                                        {can('editar.quejas') && (
+                                    {can('editar.quejas') && (
+                                        <DropdownMenuItem>
                                             <Link href={route('editar-queja', row.original.id)} className="w-full">
                                                 Editar
                                             </Link>
-                                        )}
-                                    </DropdownMenuItem>
+                                        </DropdownMenuItem>
+                                    )}
+                                    {can('ver.quejas') && (
+                                        <DropdownMenuItem>
+                                            <Link href={route('ver-queja', row.original.id)} className="w-full">
+                                                Ver detalles
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    )}
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
