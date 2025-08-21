@@ -21,21 +21,21 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard({ buzon = [], totalQuejasTipo }: { buzon: []; totalQuejasTipo: [] }) {
-    const { has } = useCan();
+    const { has, hasAny  } = useCan();
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-8">
-                {has(['ver.quejas', 'ver.estadisticas']) ? (
+                {hasAny(['ver.quejas', 'ver.estadisticas']) ? (
                     <>
                         <Encabezados title="Dashboard" subtitle="Revisa las quejas que se han genero y los datos estadisticos historicos." />
 
-                        {has(['ver.estadisticas']) && (
+                        {has('ver.estadisticas') && (
                             <div className="@container/main flex flex-1 flex-col gap-4">
                                 <QuejasChart data={totalQuejasTipo} />
                             </div>
                         )}
-                        {has(['ver.quejas']) && (
+                        {has('ver.quejas') && (
                             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl">
                                 <DataTable
                                     columns={columnasQuejas}

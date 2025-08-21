@@ -5,5 +5,8 @@ export function useCan() {
   const set = new Set(auth?.permissions ?? []);
 
   const has = (perm?: string) => (perm ? set.has(perm) : true);
-  return { has, permissions: set };
+  const hasAny = (perms: string[] = []) => perms.some(p => set.has(p));
+  const hasAll = (perms: string[] = []) => perms.every(p => set.has(p));
+  
+  return { has, hasAny, hasAll, permissions: set };
 }

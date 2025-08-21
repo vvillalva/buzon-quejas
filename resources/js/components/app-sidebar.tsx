@@ -1,12 +1,10 @@
 //import { NavFooter } from '@/components/nav-footer';
-import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { LayoutGrid, ChartLine, List, Mailbox, Users, Shield } from 'lucide-react';
 import AppLogo from './app-logo';
-import { NavAdmin } from './nav-admin';
 import { NavOpciones } from './nav-opciones';
 import { can } from '@/lib/can';
 
@@ -20,6 +18,7 @@ const mainNavItems: NavItem[] = [
         title: 'Quejas',
         href: '/quejas',
         icon: Mailbox,
+        permission: 'ver.quejas',
     },
     {
         title: 'Estadisticas',
@@ -45,11 +44,13 @@ const adminNavItems: NavItem[] = [
         title: 'Usuarios',
         href: '/usuarios',
         icon: Users,
+        permission: 'ver.usuarios',
     },
     {
         title: 'Roles',
         href: '/roles',
         icon: Shield,
+        permission: 'ver.roles',
     },
 ];
 
@@ -58,6 +59,7 @@ const catalogoNavItems: NavItem[] = [
         title: 'Lista de Catalogos',
         href: '/catalogos',
         icon: List,
+        permission: 'ver.catalogos'
     }
 ]
 
@@ -91,15 +93,15 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
-                {['editar.usuarios', 'eliminar.usuarios', 'ver.usuarios', 'crear.usuarios', 'editar.roles', 'eliminar.roles', 'ver.roles', 'crear.roles'].some((permiso) => can(permiso)) && (
-                    <NavAdmin items={adminNavItems} />
-                )}
-                {['editar.catalogos', 'eliminar.catalogos', 'ver.catalogos', 'crear.catalogos'].some((permiso) => can(permiso)) && (
-                    <NavOpciones items={catalogoNavItems} titulo="Catálogos" />
-                )}
+                <NavOpciones items={mainNavItems} titulo="Acciones" />
+                {[
+                    'ver.usuarios',
+                    'ver.roles',
+                ].some((permiso) => can(permiso)) && <NavOpciones items={adminNavItems} titulo="Administrador" />}
+                {[
+                    'ver.catalogos',
+                ].some((permiso) => can(permiso)) && (<NavOpciones items={catalogoNavItems} titulo="Catálogos" />)}
             </SidebarContent>
-
             <SidebarFooter>
                 {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
                 <NavUser />

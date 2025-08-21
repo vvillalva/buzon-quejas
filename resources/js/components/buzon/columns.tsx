@@ -1,10 +1,12 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useCan } from '@/hooks/useCan';
+import { can } from '@/lib/can';
 import { Link, router, usePage } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, CircleCheck, EllipsisVertical, Loader, LoaderCircle } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { can } from '@/lib/can';
+type RowData = { id: number };
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -22,7 +24,6 @@ function handleDeleteUser(id: number) {
     if (confirm('¿Estas seguro de eliminar el usuario?')) {
         router.delete(route('usuarios.destroy', id));
     }
-
 }
 function handleDeleteRol(id: number) {
     if (confirm('¿Estas seguro de eliminar el rol?')) {
@@ -30,6 +31,35 @@ function handleDeleteRol(id: number) {
     }
 }
 
+function ActionsCellCatalogo({ row }: { row: { original: RowData } }) {
+    const { has, hasAny } = useCan();
+    return (
+        <>
+            {hasAny(['editar.catalogos', 'eliminar.catalogos']) && (
+                <div className="flex flex-row justify-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                                <EllipsisVertical />
+                                <span className="sr-only">Opciones</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32">
+                            {has('editar.catalogos') && (
+                                <DropdownMenuItem>
+                                    <Link href={route('catalogos.edit', row.original.id)} className="w-full">
+                                        Editar
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {has('eliminar.catalogos') && <DropdownMenuItem variant="destructive">Borrar</DropdownMenuItem>}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )}
+        </>
+    );
+}
 
 export const columnasCatalogo: ColumnDef<ColumnaCatalogo>[] = [
     {
@@ -68,32 +98,7 @@ export const columnasCatalogo: ColumnDef<ColumnaCatalogo>[] = [
     },
     {
         id: 'actions',
-        cell: ({ row }) => (
-            <>
-                {(can('editar.catalogos') || can('eliminar.catalogos')) && (
-                    <div className="flex flex-row justify-end">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-                                    <EllipsisVertical />
-                                    <span className="sr-only">Opciones</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-32">
-                                {can('editar.catalogos') && (
-                                    <DropdownMenuItem>
-                                        <Link href={route('catalogos.edit', row.original.id)} className="w-full">
-                                            Editar
-                                        </Link>
-                                    </DropdownMenuItem>
-                                )}
-                                {can('eliminar.catalogos') && <DropdownMenuItem variant="destructive">Borrar</DropdownMenuItem>}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                )}
-            </>
-        ),
+        cell: ({ row }) => <ActionsCellCatalogo row={row} />,
     },
 ];
 
@@ -284,7 +289,6 @@ export type ColumnaOpcion = {
     estatus: string;
 };
 
-type RowData = { id: number };
 
 function ActionsCell({ row }: { row: { original: RowData } }) {
     const { props } = usePage<{ resourceName?: string }>();
@@ -379,6 +383,40 @@ export type ColumnaUsuario = {
     rol: string;
 };
 
+function ActionsCellUsuarios({ row }: { row: { original: RowData } }) {
+    const { has } = useCan();
+    return (
+        <>
+            {(has('editar.usuarios') || has('eliminar.usuarios')) && (
+                <div className="flex flex-row justify-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                                <EllipsisVertical />
+                                <span className="sr-only">Opciones</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32">
+                            {has('editar.usuarios') && (
+                                <DropdownMenuItem>
+                                    <Link href={route('usuarios.edit', row.original.id)} className="w-full">
+                                        Editar
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {has('eliminar.usuarios') && (
+                                <DropdownMenuItem variant="destructive" onClick={() => handleDeleteUser(row.original.id)}>
+                                    Borrar
+                                </DropdownMenuItem>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )}
+        </>
+    );
+}
+
 export const ColumnaUsuarios: ColumnDef<ColumnaUsuario>[] = [
     {
         accessorKey: 'id',
@@ -446,42 +484,55 @@ export const ColumnaUsuarios: ColumnDef<ColumnaUsuario>[] = [
     },
     {
         id: 'actions',
-        cell: ({ row }) => (
-            <div className="flex flex-row justify-end">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-                            <EllipsisVertical />
-                            <span className="sr-only">Opciones</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-32">
-                        <DropdownMenuItem>
-                            <Link href={route('usuarios.edit', row.original.id)} className="w-full">
-                                Editar
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive" onClick={() => handleDeleteUser(row.original.id)}>
-                            Borrar
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-        ),
+        cell: ({ row }) => <ActionsCellUsuarios row={row} />, // Reutilizamos la función ActionsCellUsuarios
     },
 ];
 
 export type PermissionItem = {
-  id: number;
-  name: string;
-  // ...otros campos que vengan (guard_name, etc.)
+    id: number;
+    name: string;
+    // ...otros campos que vengan (guard_name, etc.)
 };
 
 export type ColumnaRol = {
     id: number;
     name: string;
-  permissions: PermissionItem[]; // <- importante: array tipado
+    permissions: PermissionItem[]; // <- importante: array tipado
 };
+
+function ActionsCellRoles({ row }: { row: { original: RowData } }) {
+    const { has, hasAny } = useCan();
+    return (
+        <>
+            {(hasAny (['editar.roles','eliminar.roles'])) && (
+                <div className="flex flex-row justify-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                                <EllipsisVertical />
+                                <span className="sr-only">Opciones</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32">
+                            {has('editar.roles') && (
+                                <DropdownMenuItem>
+                                    <Link href={route('roles.edit', row.original.id)} className="w-full">
+                                        Editar
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            {has('eliminar.roles') && (
+                                <DropdownMenuItem variant="destructive" onClick={() => handleDeleteRol(row.original.id)}>
+                                    Borrar
+                                </DropdownMenuItem>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )}
+        </>
+    );
+}
 
 export const ColumnaRoles: ColumnDef<ColumnaRol>[] = [
     {
@@ -534,7 +585,7 @@ export const ColumnaRoles: ColumnDef<ColumnaRol>[] = [
             const names = Array.isArray(perms) ? perms.map((p) => (typeof p === 'string' ? p : p.name)) : [];
 
             return (
-                <div className="flex flex-wrap w-full pl-3 gap-6">
+                <div className="flex w-full flex-wrap gap-6 pl-3">
                     {names.map((name) => (
                         <Badge key={name} variant="default">
                             {name}
@@ -546,27 +597,6 @@ export const ColumnaRoles: ColumnDef<ColumnaRol>[] = [
     },
     {
         id: 'actions',
-        cell: ({ row }) => (
-            <div className="flex flex-row justify-end">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-                            <EllipsisVertical />
-                            <span className="sr-only">Opciones</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-32">
-                        <DropdownMenuItem>
-                            <Link href={route('roles.edit', row.original.id)} className="w-full">
-                                Editar
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive" onClick={() => handleDeleteRol(row.original.id)}>
-                            Borrar
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-        ),
+        cell: ({ row }) => <ActionsCellRoles row={row} />,
     },
 ];
