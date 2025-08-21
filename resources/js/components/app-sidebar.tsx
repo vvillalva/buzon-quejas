@@ -1,4 +1,4 @@
-import { NavFooter } from '@/components/nav-footer';
+//import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
@@ -8,6 +8,7 @@ import { LayoutGrid, ChartLine, List, Mailbox, Users, Shield } from 'lucide-reac
 import AppLogo from './app-logo';
 import { NavAdmin } from './nav-admin';
 import { NavOpciones } from './nav-opciones';
+import { can } from '@/lib/can';
 
 const mainNavItems: NavItem[] = [
     {
@@ -24,17 +25,19 @@ const mainNavItems: NavItem[] = [
         title: 'Estadisticas',
         href: '/estadisticas',
         icon: ChartLine,
+        permission: 'ver.estadisticas',
     },
     {
         title: 'Catalogo',
         href: '/catalogos',
+        permission: 'ver.opciones',
         icon: List,
-        subitems:[
+        subitems: [
             {
                 title: 'Tipo de Violencia',
-                url: '/tipo-de-violencia'
-            }
-        ]
+                href: '/tipo-de-violencia',
+            },
+        ],
     },
 ];
 const adminNavItems: NavItem[] = [
@@ -89,10 +92,14 @@ export function AppSidebar() {
 
             <SidebarContent>
                 <NavMain items={mainNavItems} />
-                <NavAdmin items={adminNavItems} />
-                <NavOpciones items={catalogoNavItems} titulo="Catálogos" />
+                {['editar.usuarios', 'eliminar.usuarios', 'ver.usuarios', 'crear.usuarios', 'editar.roles', 'eliminar.roles', 'ver.roles', 'crear.roles'].some((permiso) => can(permiso)) && (
+                    <NavAdmin items={adminNavItems} />
+                )}
+                {['editar.catalogos', 'eliminar.catalogos', 'ver.catalogos', 'crear.catalogos'].some((permiso) => can(permiso)) && (
+                    <NavOpciones items={catalogoNavItems} titulo="Catálogos" />
+                )}
             </SidebarContent>
-            
+
             <SidebarFooter>
                 {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
                 <NavUser />

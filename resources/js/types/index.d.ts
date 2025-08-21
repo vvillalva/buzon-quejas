@@ -43,15 +43,20 @@ export interface NavGroup {
     items: NavItem[];
 }
 
+export interface SubNavItem {
+    title: string;
+    href: string;
+    permission?: string;
+    icon?: LucideIcon | null;
+    isActive?: boolean;
+}
 export interface NavItem {
     title: string;
     href: string;
+    permission?: string;
     icon?: LucideIcon | null;
     isActive?: boolean;
-    subitems?: {
-        title: string
-        url: string
-    }[]
+    subitems?: NavItem[];
 }
 
 export interface SharedData {
