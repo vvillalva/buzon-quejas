@@ -55,7 +55,7 @@ export default function EditarUsuario({ user , roles }: { user : Usuario , roles
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Editar Usuario" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-8">
-                <Encabezados title="Editar datos de la opción" subtitle="Modifica los datos de la opción en caso que haya cambiando su valor. " />
+                <Encabezados title="Editar datos del usuario" subtitle="Modifica los datos del usuario en caso que se requiera cambiar algun dato especifico." />
                 <Separator />
                 <div className="datos-cedula flex flex-col gap-8">
                     <div className="encabezado">

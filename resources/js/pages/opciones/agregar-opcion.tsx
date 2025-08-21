@@ -82,7 +82,7 @@ export default function AgregarOpcion({ catalogos = [], resourceName = '' }: { c
                                         value={data.nombre}
                                         required
                                         onChange={(e) => setData('nombre', e.target.value)}
-                                        placeholder="Nombre de catalogo..."
+                                        placeholder="Nombre de la opción..."
                                     />
                                     {errors.nombre ? (
                                         <InputError message={errors.nombre} />
