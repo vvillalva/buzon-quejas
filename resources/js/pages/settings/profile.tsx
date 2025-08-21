@@ -41,6 +41,7 @@ export default function Profile() {
             preserveScroll: true,
         });
     };
+    console.log('Profile form submitted:', data);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Configuración de Perfil" />
@@ -106,7 +107,7 @@ export default function Profile() {
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-neutral-600">Saved</p>
+                                <p className="text-sm text-neutral-600">Guardado</p>
                             </Transition>
                         </div>
                     </form>
