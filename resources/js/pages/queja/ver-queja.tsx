@@ -73,7 +73,6 @@ export default function VerQueja({ queja }: EditarQuejaProps) {
                             </Badge>
                         </div>
                     </div>
-
                     <Separator />
                     <div className="flex flex-col gap-4 pt-4">
                         <div className="flex flex-wrap gap-2">
