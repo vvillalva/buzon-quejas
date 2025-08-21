@@ -7,6 +7,7 @@ import { LayoutGrid, ChartLine, List, Mailbox, Users, Shield } from 'lucide-reac
 import AppLogo from './app-logo';
 import { NavOpciones } from './nav-opciones';
 import { can } from '@/lib/can';
+import { NavMain } from './nav-main';
 
 const mainNavItems: NavItem[] = [
     {
@@ -93,7 +94,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavOpciones items={mainNavItems} titulo="Acciones" />
+                <NavMain items={mainNavItems}/>
                 {[
                     'ver.usuarios',
                     'ver.roles',
