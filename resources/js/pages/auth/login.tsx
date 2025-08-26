@@ -91,7 +91,8 @@ export default function Login({ status }: LoginProps) {
                     </Button>
                 </div>
             </form>
-            <div className="flex justify-center pt-5">
+            <div className="flex flex-col justify-center pt-5">
+                <small className='text-center text-neutral-400'>Powered by Unidad de Informatica de <b>SSGGyM</b></small>
                 <small className="text-center text-neutral-400">
                     Todos los derechos reservados © 2025 Secretaria General de Gobierno y Mediación.
                 </small>
