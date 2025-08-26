@@ -46,8 +46,9 @@ export default function FormularioBuzon({ tipoViolencia }:FormularioProps) {
       <form onSubmit={createQueja} className="flex flex-col gap-4 ">
         {/* Nombre */}
         <div className="flex flex-col gap-1">
-          <Label>Nombre o seudónimo (Opcional)</Label>
+          <Label htmlFor="nombre">Nombre o seudónimo (Opcional)</Label>
           <Input
+            id="nombre"
             name="nombre"
             value={data.nombre}
             onChange={e => setData('nombre', e.target.value)}
@@ -57,8 +58,9 @@ export default function FormularioBuzon({ tipoViolencia }:FormularioProps) {
         </div>
         {/* Correo */}
         <div className="flex flex-col gap-1">
-          <Label>Correo electrónico*</Label>
+          <Label htmlFor="correo">Correo electrónico*</Label>
           <Input
+            id="correo"
             name="correo"
             type="email"
             placeholder="ej. correo@gmail.com"
@@ -70,8 +72,9 @@ export default function FormularioBuzon({ tipoViolencia }:FormularioProps) {
         </div>
         {/* Numero telefonico */}
         <div className="flex flex-col gap-1">
-          <Label>Número telefónico*</Label>
+          <Label htmlFor="tel">Número telefónico*</Label>
           <Input
+            id="tel"
             name="tel"
             type="tel"
             maxLength={10}
@@ -86,7 +89,7 @@ export default function FormularioBuzon({ tipoViolencia }:FormularioProps) {
         </div>
         {/* Tipo de violencia */}
         <div className="flex flex-col gap-1">
-          <Label>Tipo de Violencia*</Label>
+          <Label id="tipoViolencia">Tipo de Violencia*</Label>
           <Select
             value={data.tipo_violencia}
             onValueChange={value => setData('tipo_violencia', value)}
@@ -110,8 +113,9 @@ export default function FormularioBuzon({ tipoViolencia }:FormularioProps) {
         </div>
         {/* Relato de los hechos */}
         <div className="flex flex-col gap-1">
-          <Label>Descripción detallada*</Label>
+          <Label htmlFor="mensaje">Descripción detallada*</Label>
           <Textarea
+            id="mensaje"
             name="mensaje"
             placeholder="Relata tu caso detalladamente."
             className="min-h-48"
