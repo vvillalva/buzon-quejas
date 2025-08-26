@@ -1,9 +1,11 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useCan } from '@/hooks/useCan';
 import { can } from '@/lib/can';
+import { useConfirm } from '@/Providers/ConfirmProvider';
 import { Link, router, usePage } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, CircleCheck, EllipsisVertical, Loader, LoaderCircle } from 'lucide-react';
+import { useState } from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 type RowData = { id: number };
@@ -15,21 +17,21 @@ export type ColumnaCatalogo = {
     nombre: string;
 };
 
-function handleDelete(id: number, resourceName: string) {
-    if (confirm('¿Estas seguro de eliminar el dato?')) {
-        router.delete(route(`${resourceName}.destroy`, id));
-    }
-}
-function handleDeleteUser(id: number) {
-    if (confirm('¿Estas seguro de eliminar el usuario?')) {
-        router.delete(route('usuarios.destroy', id));
-    }
-}
-function handleDeleteRol(id: number) {
-    if (confirm('¿Estas seguro de eliminar el rol?')) {
-        router.delete(route('roles.destroy', id));
-    }
-}
+// function handleDelete(id: number, resourceName: string) {
+//     if (confirm('¿Estas seguro de eliminar el dato?')) {
+//         router.delete(route(`${resourceName}.destroy`, id));
+//     }
+// }
+// function handleDeleteUser(id: number) {
+//     if (confirm('¿Estas seguro de eliminar el usuario?')) {
+//         router.delete(route('usuarios.destroy', id));
+//     }
+// }
+// function handleDeleteRol(id: number) {
+//     if (confirm('¿Estas seguro de eliminar el rol?')) {
+//         router.delete(route('roles.destroy', id));
+//     }
+// }
 
 function ActionsCellCatalogo({ row }: { row: { original: RowData } }) {
     const { has, hasAny } = useCan();
@@ -289,15 +291,41 @@ export type ColumnaOpcion = {
     estatus: string;
 };
 
-
 function ActionsCell({ row }: { row: { original: RowData } }) {
     const { props } = usePage<{ resourceName?: string }>();
     const resourceName = props.resourceName;
+    //**Configuración para modal */
+    const confirm = useConfirm();
+
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const onDeleteClick = async () => {
+        // 1) cierra el dropdown primero para evitar conflictos de foco
+        setMenuOpen(false);
+        // 2) espera a que termine el ciclo de cierre
+        await new Promise((r) => requestAnimationFrame(r));
+        // 3) abre el confirm global (no se desmonta aunque se borre la fila)
+        const ok = await confirm({
+            title: '¿Desea eliminar esta opción?',
+            description: '¿Estás seguro de eliminar este registro? Ya no podrás recuperar este registro ni sus datos relacionados.',
+            actionText: 'Eliminar',
+            cancelText: 'Cancelar',
+            destructive: true,
+        });
+        if (!ok) return;
+        // 4) dispara la eliminación en el siguiente frame (dropdown/confirm ya cerrados)
+        requestAnimationFrame(() => {
+            router.delete(route(`${resourceName}.destroy`, row.original.id), {
+                preserveScroll: true,
+            });
+        });
+    };
+
     return (
         <>
             {(can('editar.opciones') || can('eliminar.opciones')) && (
                 <div className="flex flex-row justify-end">
-                    <DropdownMenu>
+                    <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
                                 <EllipsisVertical />
@@ -313,7 +341,13 @@ function ActionsCell({ row }: { row: { original: RowData } }) {
                                 </DropdownMenuItem>
                             )}
                             {can('eliminar.opciones') && (
-                                <DropdownMenuItem variant="destructive" onClick={() => handleDelete(row.original.id, resourceName ?? '')}>
+                                <DropdownMenuItem
+                                    variant="destructive"
+                                    onSelect={(e) => {
+                                        e.preventDefault();
+                                        onDeleteClick();
+                                    }}
+                                >
                                     Borrar
                                 </DropdownMenuItem>
                             )}
@@ -385,11 +419,38 @@ export type ColumnaUsuario = {
 
 function ActionsCellUsuarios({ row }: { row: { original: RowData } }) {
     const { has } = useCan();
+
+    //**Configuración para modal */
+    const confirm = useConfirm();
+
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const onDeleteClick = async () => {
+        // 1) cierra el dropdown primero para evitar conflictos de foco
+        setMenuOpen(false);
+        // 2) espera a que termine el ciclo de cierre
+        await new Promise((r) => requestAnimationFrame(r));
+        // 3) abre el confirm global (no se desmonta aunque se borre la fila)
+        const ok = await confirm({
+            title: '¿Desea eliminar a este usuario?',
+            description: '¿Estás seguro de eliminar a este usuario? Ya no podrás recuperar la información relacionada con el usuario.',
+            actionText: 'Eliminar',
+            cancelText: 'Cancelar',
+            destructive: true,
+        });
+        if (!ok) return;
+        // 4) dispara la eliminación en el siguiente frame (dropdown/confirm ya cerrados)
+        requestAnimationFrame(() => {
+            router.delete(route('usuarios.destroy', row.original.id), {
+                preserveScroll: true,
+            });
+        });
+    };
     return (
         <>
             {(has('editar.usuarios') || has('eliminar.usuarios')) && (
                 <div className="flex flex-row justify-end">
-                    <DropdownMenu>
+                    <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
                                 <EllipsisVertical />
@@ -405,7 +466,13 @@ function ActionsCellUsuarios({ row }: { row: { original: RowData } }) {
                                 </DropdownMenuItem>
                             )}
                             {has('eliminar.usuarios') && (
-                                <DropdownMenuItem variant="destructive" onClick={() => handleDeleteUser(row.original.id)}>
+                                <DropdownMenuItem
+                                    variant="destructive"
+                                    onSelect={(e) => {
+                                        e.preventDefault();
+                                        onDeleteClick();
+                                    }}
+                                >
                                     Borrar
                                 </DropdownMenuItem>
                             )}
@@ -502,11 +569,35 @@ export type ColumnaRol = {
 
 function ActionsCellRoles({ row }: { row: { original: RowData } }) {
     const { has, hasAny } = useCan();
+    //**Configuración para modal */
+    const confirm = useConfirm();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const onDeleteClick = async () => {
+        // 1) cierra el dropdown primero para evitar conflictos de foco
+        setMenuOpen(false);
+        // 2) espera a que termine el ciclo de cierre
+        await new Promise((r) => requestAnimationFrame(r));
+        // 3) abre el confirm global (no se desmonta aunque se borre la fila)
+        const ok = await confirm({
+            title: '¿Desea eliminar este Rol?',
+            description: 'Al eliminar este rol cualquier usuario que tenga relación con el rol perdera de sus privilegios dentro del sistema.',
+            actionText: 'Eliminar',
+            cancelText: 'Cancelar',
+            destructive: true,
+        });
+        if (!ok) return;
+        // 4) dispara la eliminación en el siguiente frame (dropdown/confirm ya cerrados)
+        requestAnimationFrame(() => {
+            router.delete(route('roles.destroy', row.original.id), {
+                preserveScroll: true,
+            });
+        });
+    };
     return (
         <>
-            {(hasAny (['editar.roles','eliminar.roles'])) && (
+            {hasAny(['editar.roles', 'eliminar.roles']) && (
                 <div className="flex flex-row justify-end">
-                    <DropdownMenu>
+                    <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
                                 <EllipsisVertical />
@@ -522,7 +613,13 @@ function ActionsCellRoles({ row }: { row: { original: RowData } }) {
                                 </DropdownMenuItem>
                             )}
                             {has('eliminar.roles') && (
-                                <DropdownMenuItem variant="destructive" onClick={() => handleDeleteRol(row.original.id)}>
+                                <DropdownMenuItem
+                                    variant="destructive"
+                                    onSelect={(e) => {
+                                        e.preventDefault();
+                                        onDeleteClick();
+                                    }}
+                                >
                                     Borrar
                                 </DropdownMenuItem>
                             )}
