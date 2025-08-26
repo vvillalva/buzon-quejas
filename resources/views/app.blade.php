@@ -10,10 +10,10 @@
                 const appearance = '{{ $appearance ?? "system" }}';
 
                 if (appearance === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
 
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
+                    if (prefersLight) {
+                        document.documentElement.classList.add('light');
                     }
                 }
             })();
