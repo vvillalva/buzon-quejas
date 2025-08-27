@@ -1,9 +1,9 @@
-import { type BreadcrumbItem, type SharedData } from '@/types';
+//** Hooks  */
 import { Transition } from '@headlessui/react';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-
-import DeleteUser from '@/components/delete-user';
+//** Components  */
+//import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -11,78 +11,73 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-
+//** Assets  */
+//** Interface or Types  */
+import type { BreadcrumbItem, SharedData } from '@/types';
+type ProfileForm = {
+    nombre: string;
+    correo: string;
+};
+//** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Profile settings',
+        title: 'Configuración de Perfil',
         href: '/settings/profile',
     },
 ];
-
-type ProfileForm = {
-    name: string;
-    email: string;
-};
-
-export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
+ /* 
+ * @Propiedades (Ver estatus y Verificación)
+ * Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string })
+*/
+export default function Profile() {
     const { auth } = usePage<SharedData>().props;
-
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<ProfileForm>>({
-        name: auth.user.name,
-        email: auth.user.email,
+        nombre: auth.user.nombre,
+        correo: auth.user.correo,
     });
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
         patch(route('profile.update'), {
             preserveScroll: true,
         });
     };
-
+    console.log('Profile form submitted:', data);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Profile settings" />
+            <Head title="Configuración de Perfil" />
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Profile information" description="Update your name and email address" />
-
+                    <HeadingSmall title="Información de perfil" description="Actualiza tu nombre y correo si crees necesario." />
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
-
+                            <Label htmlFor="name">Nombre</Label>
                             <Input
                                 id="name"
                                 className="mt-1 block w-full"
-                                value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
+                                value={data.nombre}
+                                onChange={(e) => setData('nombre', e.target.value)}
                                 required
                                 autoComplete="name"
                                 placeholder="Full name"
                             />
-
-                            <InputError className="mt-2" message={errors.name} />
+                            <InputError className="mt-2" message={errors.nombre} />
                         </div>
-
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email address</Label>
-
+                            <Label htmlFor="email">Correo</Label>
                             <Input
                                 id="email"
                                 type="email"
                                 className="mt-1 block w-full"
-                                value={data.email}
-                                onChange={(e) => setData('email', e.target.value)}
+                                value={data.correo}
+                                onChange={(e) => setData('correo', e.target.value)}
                                 required
                                 autoComplete="username"
                                 placeholder="Email address"
                             />
-
-                            <InputError className="mt-2" message={errors.email} />
+                            <InputError className="mt-2" message={errors.correo} />
                         </div>
-
-                        {mustVerifyEmail && auth.user.email_verified_at === null && (
+                        {/* {mustVerifyEmail && auth.user.email_verified_at === null && (
                             <div>
                                 <p className="-mt-4 text-sm text-muted-foreground">
                                     Your email address is unverified.{' '}
@@ -102,11 +97,9 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                     </div>
                                 )}
                             </div>
-                        )}
-
+                        )} */}
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Save</Button>
-
+                            <Button disabled={processing}>Guardar</Button>
                             <Transition
                                 show={recentlySuccessful}
                                 enter="transition ease-in-out"
@@ -114,13 +107,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-neutral-600">Saved</p>
+                                <p className="text-sm text-neutral-600">Guardado</p>
                             </Transition>
                         </div>
                     </form>
                 </div>
-
-                <DeleteUser />
+                {/* Si se quiere activar la opción de que el usuario pueda borrar su cuenta */}
+                {/* <DeleteUser /> */}
             </SettingsLayout>
         </AppLayout>
     );

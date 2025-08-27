@@ -1,11 +1,12 @@
-import { NavFooter } from '@/components/nav-footer';
-import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { LayoutGrid, ChartLine, List, Mailbox, Users, Shield } from 'lucide-react';
 import AppLogo from './app-logo';
+import { NavOpciones } from './nav-opciones';
+import { useCan } from '@/hooks/useCan';
+import { NavMain } from './nav-main';
 
 const mainNavItems: NavItem[] = [
     {
@@ -13,22 +14,71 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Quejas',
+        href: '/quejas',
+        icon: Mailbox,
+        permission: 'ver.quejas',
+    },
+    {
+        title: 'Estadisticas',
+        href: '/estadisticas',
+        icon: ChartLine,
+        permission: 'ver.estadisticas',
+    },
+    {
+        title: 'Catalogo',
+        href: '/catalogos',
+        permission: 'ver.opciones',
+        icon: List,
+        subitems: [
+            {
+                title: 'Tipo de Violencia',
+                href: '/tipo-de-violencia',
+            },
+        ],
+    },
+];
+const adminNavItems: NavItem[] = [
+    {
+        title: 'Usuarios',
+        href: '/usuarios',
+        icon: Users,
+        permission: 'ver.usuarios',
+    },
+    {
+        title: 'Roles',
+        href: '/roles',
+        icon: Shield,
+        permission: 'ver.roles',
+    },
 ];
 
-const footerNavItems: NavItem[] = [
+const catalogoNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
+        title: 'Lista de Catalogos',
+        href: '/catalogos',
+        icon: List,
+        permission: 'ver.catalogos'
+    }
+]
+
+// Habilitar si se requiere un navbar en la parte del footer
+// const footerNavItems: NavItem[] = [
+//     {
+//         title: 'Repository',
+//         href: 'https://github.com/laravel/react-starter-kit',
+//         icon: Folder,
+//     },
+//     {
+//         title: 'Documentation',
+//         href: 'https://laravel.com/docs/starter-kits#react',
+//         icon: BookOpen,
+//     },
+// ];
 
 export function AppSidebar() {
+        const { hasAny, has } = useCan();
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -44,11 +94,12 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={mainNavItems}/>
+                { hasAny(['ver.usuarios', 'ver.roles']) && <NavOpciones items={adminNavItems} titulo="Administrador" /> }
+                { has('ver.catalogos') && (<NavOpciones items={catalogoNavItems} titulo="Catálogos" />)}
             </SidebarContent>
-
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
+                {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
