@@ -1,4 +1,3 @@
-//import { NavFooter } from '@/components/nav-footer';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
@@ -6,7 +5,7 @@ import { Link } from '@inertiajs/react';
 import { LayoutGrid, ChartLine, List, Mailbox, Users, Shield } from 'lucide-react';
 import AppLogo from './app-logo';
 import { NavOpciones } from './nav-opciones';
-import { can } from '@/lib/can';
+import { useCan } from '@/hooks/useCan';
 import { NavMain } from './nav-main';
 
 const mainNavItems: NavItem[] = [
@@ -79,6 +78,7 @@ const catalogoNavItems: NavItem[] = [
 // ];
 
 export function AppSidebar() {
+        const { hasAny, has } = useCan();
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -95,13 +95,8 @@ export function AppSidebar() {
 
             <SidebarContent>
                 <NavMain items={mainNavItems}/>
-                {[
-                    'ver.usuarios',
-                    'ver.roles',
-                ].some((permiso) => can(permiso)) && <NavOpciones items={adminNavItems} titulo="Administrador" />}
-                {[
-                    'ver.catalogos',
-                ].some((permiso) => can(permiso)) && (<NavOpciones items={catalogoNavItems} titulo="Catálogos" />)}
+                { hasAny(['ver.usuarios', 'ver.roles']) && <NavOpciones items={adminNavItems} titulo="Administrador" /> }
+                { has('ver.catalogos') && (<NavOpciones items={catalogoNavItems} titulo="Catálogos" />)}
             </SidebarContent>
             <SidebarFooter>
                 {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}

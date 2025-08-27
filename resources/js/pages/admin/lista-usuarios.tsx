@@ -1,5 +1,6 @@
 //** Hooks  */
 import { Head } from '@inertiajs/react';
+import { useCan } from '@/hooks/useCan';
 //** Components  */
 import { ColumnaUsuarios } from '@/components/buzon/columns';
 import { DataTable } from '@/components/buzon/data-table';
@@ -9,7 +10,6 @@ import AppLayout from '@/layouts/app-layout';
 //** Interface or Types  */
 import type { BreadcrumbItem } from '@/types';
 //** Lib or Utils */
-import { can } from '@/lib/can';
 import { ConfirmProvider } from '@/Providers/ConfirmProvider';
 //** Consts or Fuctions*/
 const breadcrumbs: BreadcrumbItem[] = [
@@ -20,13 +20,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function ListaUsuarios({ users = [] }: { users: [] }) {
+    const { has } = useCan();
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Usuarios" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-8">
                 <Encabezados title="Lista de Usuarios" subtitle="Revisa los diferentes usuarios que tengan acceso al sistema." />
                 <ConfirmProvider>
-                    {can('ver.usuarios') && (
+                    {has('ver.usuarios') && (
                         <DataTable
                             columns={ColumnaUsuarios}
                             data={users}
