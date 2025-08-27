@@ -7,7 +7,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
     ChartContainer,
     ChartLegend,
     ChartLegendContent,
@@ -46,11 +45,7 @@ type ChartConfig = {
   [key: string]: ChartConfigItem;
 };
 
-interface QuejasChartProps {
-    data: any[]
-}
-
-export default function QuejasChart({ data }: QuejasChartProps) {
+export default function QuejasChart({ data = [] }) {
     // Extrae todas las keys, quitando 'date'
     const tipoKeys = Object.keys(data[0]).filter(
         key => key !== "date"
@@ -150,7 +145,7 @@ export default function QuejasChart({ data }: QuejasChartProps) {
                                 if (!value) return "";
                                 const [year, month, day] = value.split("-");
                                 const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-                                return `${parseInt(day, 10)} ${meses[parseInt(month, 10) - 1]}`;
+                                return `${parseInt(day, 10)} ${meses[parseInt(month, 10) - 1]} ${year}`;
                             }}
                         />
                         <ChartTooltip
@@ -162,7 +157,7 @@ export default function QuejasChart({ data }: QuejasChartProps) {
                                         if (!value) return "";
                                         const [year, month, day] = value.split("-");
                                         const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Novviembre", "Diciembre"];
-                                        return `${parseInt(day, 10)} ${meses[parseInt(month, 10) - 1]}`;
+                                        return `${parseInt(day, 10)} ${meses[parseInt(month, 10) - 1]} ${year}`;
                                     }}
                                     indicator="dot"
                                 />

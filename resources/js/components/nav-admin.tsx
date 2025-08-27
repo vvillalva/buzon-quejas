@@ -1,47 +1,47 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
+import type { NavItem } from '@/types';
+import { Link } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 import { ChevronRight } from 'lucide-react';
 
 export function NavAdmin({ items = [] }: { items: NavItem[] }) {
-    // 1) Trae permisos desde Inertia de forma segura
-    const { auth } = usePage().props as unknown as { auth: { permissions: string[] } };
-    const perms = new Set(auth?.permissions ?? []);
-    const has = (perm?: string) => (perm ? perms.has(perm) : true);
+    // // 1) Trae permisos desde Inertia de forma segura
+    // const { auth } = usePage().props as unknown as { auth: { permissions: string[] } };
+    // const perms = new Set(auth?.permissions ?? []);
+    // const has = (perm?: string) => (perm ? perms.has(perm) : true);
 
-        // 2) Filtrar árbol por permisos (NO muta href ni cambia tus tipos)
-        const filterNav = (nodes: NavItem[]): NavItem[] => {
-            const out: NavItem[] = [];
+    //     // 2) Filtrar árbol por permisos (NO muta href ni cambia tus tipos)
+    //     const filterNav = (nodes: NavItem[]): NavItem[] => {
+    //         const out: NavItem[] = [];
     
-            for (const n of nodes) {
-                const parentHasPermissionKey = typeof n.permission !== 'undefined';
-                const parentAllowed = has(n.permission);
+    //         for (const n of nodes) {
+    //             const parentHasPermissionKey = typeof n.permission !== 'undefined';
+    //             const parentAllowed = has(n.permission);
     
-                // 1) Si el padre DEFINE permission y NO la tiene -> se oculta TODA la rama
-                if (parentHasPermissionKey && !parentAllowed) {
-                    continue;
-                }
+    //             // 1) Si el padre DEFINE permission y NO la tiene -> se oculta TODA la rama
+    //             if (parentHasPermissionKey && !parentAllowed) {
+    //                 continue;
+    //             }
     
-                // 2) Si el padre no define permission, filtramos hijos por sus propias permissions
-                const visibleSubs = n.subitems?.filter((s: SubNavItem) => has((s as { permission?: string }).permission)) ?? [];
+    //             // 2) Si el padre no define permission, filtramos hijos por sus propias permissions
+    //             const visibleSubs = n.subitems?.filter((s: SubNavItem) => has((s as { permission?: string }).permission)) ?? [];
     
-                const hasChildren = visibleSubs.length > 0;
+    //             const hasChildren = visibleSubs.length > 0;
     
-                // 3) Incluir el padre:
-                //    - Si define permission y la tiene -> incluir (con hijos filtrados si los hay)
-                //    - Si NO define permission -> incluir si es hoja o si tiene hijos visibles
-                if ((parentHasPermissionKey && parentAllowed) || (!parentHasPermissionKey && (hasChildren || !n.subitems))) {
-                    out.push({
-                        ...n,
-                        subitems: hasChildren ? (visibleSubs as SubNavItem[]) : undefined,
-                    });
-                }
-            }
-            return out;
-        };
+    //             // 3) Incluir el padre:
+    //             //    - Si define permission y la tiene -> incluir (con hijos filtrados si los hay)
+    //             //    - Si NO define permission -> incluir si es hoja o si tiene hijos visibles
+    //             if ((parentHasPermissionKey && parentAllowed) || (!parentHasPermissionKey && (hasChildren || !n.subitems))) {
+    //                 out.push({
+    //                     ...n,
+    //                     subitems: hasChildren ? (visibleSubs as SubNavItem[]) : undefined,
+    //                 });
+    //             }
+    //         }
+    //         return out;
+    //     };
     
-        const visible = filterNav(items);
+        // const visible = filterNav(items);
 
     return (
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">

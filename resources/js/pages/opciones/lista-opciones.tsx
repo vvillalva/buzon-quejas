@@ -1,5 +1,5 @@
 //** Hooks  */
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 //** Components  */
 import { columnasOpciones } from '@/components/buzon/columns';
 import { DataTable } from '@/components/buzon/data-table';

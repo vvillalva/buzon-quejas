@@ -1,5 +1,4 @@
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, Rectangle, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts"
 import {
     Card,
     CardContent,
@@ -26,12 +25,7 @@ const colorPalette = [
     "var(--chart-7)",
     // Agrega más colores si necesitas
 ];
-type ChartConfig = {
-    [total: string]: {
-        label: string;
-        color?: string;
-    }
-};
+
 interface TipoSemestre {
     anio: string;
     semestre: string;
@@ -41,8 +35,6 @@ interface TipoSemestre {
 interface ChartTipoDeViolenciaProps {
     tipo: TipoSemestre[];
 }
-
-//TODO: GENERAR EL CHARTCONFIG DINAMICO COMO EL DE quejas-chart
 
 export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
     // Extraer tipos únicos de violencia
