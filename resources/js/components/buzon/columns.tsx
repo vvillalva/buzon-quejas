@@ -114,6 +114,40 @@ export type ColumnaQueja = {
     estatus: string;
 };
 
+function ActionsCellQuejas({ row }: { row: { original: RowData } }) {
+    const { has, hasAny } = useCan();
+    return (
+        <>
+            {hasAny(['editar.quejas', 'ver.quejas']) && (
+                <div className="flex flex-row justify-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                                <EllipsisVertical />
+                                <span className="sr-only">Opciones</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32">
+                            {has('editar.quejas') && (
+                                <DropdownMenuItem>
+                                    <Link href={route('editar-queja', row.original.id)} className="w-full">
+                                        Editar
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
+                            <DropdownMenuItem>
+                                <Link href={route('ver-queja', row.original.id)} className="w-full">
+                                    Ver detalles
+                                </Link>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )}
+        </>
+    );
+}
+
 export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
     {
         accessorKey: 'folio',
@@ -247,40 +281,7 @@ export const columnasQuejas: ColumnDef<ColumnaQueja>[] = [
     },
     {
         id: 'actions',
-        cell: ({ row }) => {
-            return (
-                <>
-                    {(can('editar.quejas') || can('ver.quejas')) && (
-                        <div className="flex flex-row justify-end">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-                                        <EllipsisVertical />
-                                        <span className="sr-only">Opciones</span>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-32">
-                                    {can('editar.quejas') && (
-                                        <DropdownMenuItem>
-                                            <Link href={route('editar-queja', row.original.id)} className="w-full">
-                                                Editar
-                                            </Link>
-                                        </DropdownMenuItem>
-                                    )}
-                                    {can('ver.quejas') && (
-                                        <DropdownMenuItem>
-                                            <Link href={route('ver-queja', row.original.id)} className="w-full">
-                                                Ver detalles
-                                            </Link>
-                                        </DropdownMenuItem>
-                                    )}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    )}
-                </>
-            );
-        },
+        cell: ({ row }) => <ActionsCellQuejas row={row} />,
     },
 ];
 
