@@ -292,6 +292,7 @@ export type ColumnaOpcion = {
 };
 
 function ActionsCell({ row }: { row: { original: RowData } }) {
+    const { has, hasAny } = useCan();
     const { props } = usePage<{ resourceName?: string }>();
     const resourceName = props.resourceName;
     //**Configuración para modal */
@@ -323,7 +324,7 @@ function ActionsCell({ row }: { row: { original: RowData } }) {
 
     return (
         <>
-            {(can('editar.opciones') || can('eliminar.opciones')) && (
+            {hasAny(['editar.opciones', 'eliminar.opciones']) && (
                 <div className="flex flex-row justify-end">
                     <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
                         <DropdownMenuTrigger asChild>
@@ -333,14 +334,14 @@ function ActionsCell({ row }: { row: { original: RowData } }) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-32">
-                            {can('editar.opciones') && (
+                            {has('editar.opciones') && (
                                 <DropdownMenuItem>
                                     <Link href={route(`${resourceName}.edit`, row.original.id)} className="w-full">
                                         Editar
                                     </Link>
                                 </DropdownMenuItem>
                             )}
-                            {can('eliminar.opciones') && (
+                            {has('eliminar.opciones') && (
                                 <DropdownMenuItem
                                     variant="destructive"
                                     onSelect={(e) => {
