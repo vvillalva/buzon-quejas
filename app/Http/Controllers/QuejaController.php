@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Option;
 use App\Models\Queja;
 
 class QuejaController extends Controller
@@ -45,6 +46,7 @@ class QuejaController extends Controller
             'totalQuejasTipo' => $totalQuejasTipo
         ]);
     }
+
     public function quejasIndex()
     {
         return Inertia::render("quejas", [
@@ -57,7 +59,13 @@ class QuejaController extends Controller
      */
     public function create()
     {
-        //
+        $opcionesTipoViolencia = Option::where('catalogo_id', 1)
+            ->where('estatus', 1)
+            ->get(['id', 'nombre']);
+
+        return Inertia::render("queja/agregar-queja", [
+            'tipoViolencia' => $opcionesTipoViolencia
+        ]);
     }
 
     /**
@@ -121,6 +129,69 @@ class QuejaController extends Controller
         );
 
         return redirect()->route('buzon')->with([
+            'success' => 'Haz realizado tu queja con éxito.',
+            'folio' => $folio
+        ]);
+    }
+
+    public function storeIndex(Request $request)
+    {
+        $request->validate(
+            [
+                "nombre",
+                "correo" => "required",
+                "tel" => "required",
+                "tipo_violencia" => "required",
+                "mensaje" => "required",
+                "estatus" => "required"
+            ],
+            [
+                "correo.required" => "El correo es obligatorio para generar tu queja.",
+                "tel.required" => "El numero telefonico es obligatorio para generar tu queja.",
+                "tipo_violencia" => "Selecciona una de la opciones del campo para realizar tu queja.",
+                "mensaje" => "El mensaje es obligatorio para realizar la queja."
+            ]
+        );
+
+        // Si el campo nombre viene vacío o nulo, ponle 'Anonimo'
+        if (!$request->filled('nombre')) {
+            $request->merge(['nombre' => 'Anonimo']);
+        }
+
+        // Normaliza el valor de tipo_violencia a minúsculas y sin acentos
+        if ($request->filled('tipo_violencia')) {
+            $tipo = $request->input('tipo_violencia');
+
+            // Quitar acentos
+            $tipoNormalizado = iconv('UTF-8', 'ASCII//TRANSLIT', $tipo);
+            // Convertir a minúsculas
+            $tipoNormalizado = mb_strtolower($tipoNormalizado);
+
+            // Quitar cualquier caracter raro que deje iconv (opcional)
+            $tipoNormalizado = preg_replace('/[^a-z0-9]/', '', $tipoNormalizado);
+
+            $request->merge(['tipo_violencia' => $tipoNormalizado]);
+        }
+
+        // Generar folio automáticamente
+        $folio = $this->generarFolio();
+
+        // Guardar la queja incluyendo el folio
+        Queja::create(
+            array_merge(
+                $request->only([
+                    "nombre",
+                    "correo",
+                    "tel",
+                    "tipo_violencia",
+                    "mensaje",
+                    "estatus"
+                ]),
+                ["folio" => $folio]
+            )
+        );
+
+        return redirect()->route('quejas')->with([
             'success' => 'Haz realizado tu queja con éxito.',
             'folio' => $folio
         ]);

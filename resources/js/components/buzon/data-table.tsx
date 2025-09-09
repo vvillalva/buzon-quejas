@@ -82,7 +82,7 @@ export function DataTable<TData, TValue>({
                         onChange={(event) => table.getColumn(`${filter}`)?.setFilterValue(event.target.value)}
                         className="max-w-sm"
                     />
-                    {hasAny(['crear.usuarios', 'crear.opciones', 'crear.roles', 'crear.catalogos'] ) && (
+                    {hasAny(['crear.usuarios', 'crear.opciones', 'crear.roles', 'crear.catalogos', 'crear.quejas'] ) && (
                         <>
                             {resourceName && (
                                 <Link
