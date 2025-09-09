@@ -69,7 +69,7 @@ export default function AgregarUsuario({ roles=[] }: { roles: RolProps[] }) {
                                         value={data.nombre}
                                         required
                                         onChange={(e) => setData('nombre', e.target.value)}
-                                        placeholder="Nombre de catalogo..."
+                                        placeholder="Nombre del usuario..."
                                     />
                                     {errors.nombre ? (
                                         <InputError message={errors.nombre} />

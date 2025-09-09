@@ -13,6 +13,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { CircleCheck } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 //** Assets  */
 //** Interface or Types  */
 //** Consts or Fuctions*/
@@ -59,13 +61,16 @@ export default function BuzonQuejas({ tipoViolenciaOptions = [] }) {
                     <AlertDialog open={open} onOpenChange={setOpen}>
                         {/* No necesitas AlertDialogTrigger */}
                         <AlertDialogContent>
-                            <AlertDialogHeader>
+                            <AlertDialogHeader className="flex flex-col items-center justify-center">
+                                <div className="w-fit rounded-full bg-primary-300 p-3 text-primary-600">
+                                    <CircleCheck />
+                                </div>
                                 <AlertDialogTitle className="flex flex-row items-center justify-center gap-2 text-2xl lg:justify-start">
                                     {' '}
                                     ¡Queja enviada!
                                 </AlertDialogTitle>
-                                <AlertDialogDescription className="font-semibold">
-                                    {success} A continuación se te dara tu folio de seguimiento para tu casa, recuerda guardar bien los siguientes
+                                <AlertDialogDescription className="text-center font-semibold">
+                                    {success} A continuación se te dara tu folio de seguimiento para tu caso, recuerda guardar bien los siguientes
                                     datos.
                                     <br />
                                     <br />
@@ -74,8 +79,13 @@ export default function BuzonQuejas({ tipoViolenciaOptions = [] }) {
                                     </span>
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
+                            <Separator />
                             <AlertDialogFooter>
-                                <AlertDialogAction onClick={() => setOpen(false)}>Confirmar</AlertDialogAction>
+                                <div className="flex w-full flex-row items-center justify-center">
+                                    <AlertDialogAction className="min-w-[260px]" onClick={() => setOpen(false)}>
+                                        Confirmar
+                                    </AlertDialogAction>
+                                </div>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
