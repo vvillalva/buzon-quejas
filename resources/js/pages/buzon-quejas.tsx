@@ -36,7 +36,7 @@ export default function BuzonQuejas({ tipoViolenciaOptions = [] }) {
                     <div className="titulo flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-0">
                         <div className="flex flex-row">
                             {/* Por si se agrega icono aun lado */}
-                            <h1 className="text-4xl font-semibold text-[#96559B] dark:text-white">Buzón de quejas</h1>
+                            <h1 className="text-4xl font-semibold text-[#96559B] dark:text-white">Buzón Violeta</h1>
                         </div>
                         <hr className="mx-6 hidden h-12 w-px border-0 bg-[#BEB9B9] lg:flex dark:text-white" />
                         <p className="text-base font-light text-[#434343] dark:text-white">Unidad de Igualdad de Genero</p>
