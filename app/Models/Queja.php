@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +13,5 @@ class Queja extends Model
     protected $table = 'quejas';
 
     // Campos
-    protected $fillable = ['nombre', 'correo', 'tel', 'tipo_violencia', 'mensaje'];
-
+    protected $fillable = ['nombre', 'correo', 'tel', 'tipo_violencia', 'mensaje', 'folio', 'estatus'];
 }

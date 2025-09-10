@@ -1,6 +1,34 @@
 import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
 
+export const ACTIONS = ["ver", "crear", "editar", "eliminar"] as const;
+export const DOMAINS = [
+    "catalogos",
+    "estadisticas",
+    "opciones",
+    "quejas",
+    "roles",
+    "usuarios",
+] as const;
+
+export type Action = typeof ACTIONS[number];
+export type Domain = typeof DOMAINS[number];
+
+// "ver.usuarios" | "crear.opciones" | ...
+export type Permission = `${Action}.${Domain}`;
+
+// Si tu formulario guarda permisos:
+export interface RoleForm {
+    permissions: Permission[]; // arreglo estrictamente tipado
+}
+
+type Permission = `${"ver" | "crear" | "editar" | "eliminar"}.${"catalogos" | "estadisticas" | "opciones" | "quejas" | "roles" | "usuarios"}`;
+type RoleFormData = {
+    id: number;
+    name: string;
+    permissions: Permission[]; // <<— importante: string[]
+};
+
 export interface Auth {
     user: User;
 }
@@ -15,11 +43,20 @@ export interface NavGroup {
     items: NavItem[];
 }
 
+export interface SubNavItem {
+    title: string;
+    href: string;
+    permission?: string;
+    icon?: LucideIcon | null;
+    isActive?: boolean;
+}
 export interface NavItem {
     title: string;
     href: string;
+    permission?: string;
     icon?: LucideIcon | null;
     isActive?: boolean;
+    subitems?: NavItem[];
 }
 
 export interface SharedData {
@@ -33,8 +70,8 @@ export interface SharedData {
 
 export interface User {
     id: number;
-    name: string;
-    email: string;
+    nombre: string;
+    correo: string;
     avatar?: string;
     email_verified_at: string | null;
     created_at: string;

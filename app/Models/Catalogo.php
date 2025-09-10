@@ -12,6 +12,6 @@ class Catalogo extends Model
     // Relación uno a muchos con las Opciones
     public function opciones()
     {
-        return $this->hasMany(Opcion::class, 'catalogo_id');
+        return $this->hasMany(Option::class, 'catalogo_id');
     }
 }
