@@ -1,88 +1,66 @@
-import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "@/components/ui/chart"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from 'recharts';
 
-export const description = "Grafica de los Tipo de Violencia por Semestre"
+export const description = 'Grafica de los Tipo de Violencia por Semestre';
 
 const colorPalette = [
-    "var(--chart-1)",
-    "var(--chart-2)",
-    "var(--chart-3)",
-    "var(--chart-4)",
-    "var(--chart-5)",
-    "var(--chart-6)",
-    "var(--chart-7)",
+    'var(--chart-1)',
+    'var(--chart-2)',
+    'var(--chart-3)',
+    'var(--chart-4)',
+    'var(--chart-5)',
+    'var(--chart-6)',
+    'var(--chart-7)',
     // Agrega más colores si necesitas
 ];
 
 interface TipoSemestre {
-    anio: string;
-    semestre: string;
+    anio: number;
+    semestre: number;
     tipo_violencia: string;
-    total: string;
+    total: number;
 }
 interface ChartTipoDeViolenciaProps {
     tipo: TipoSemestre[];
 }
 
 export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
-    // Extraer tipos únicos de violencia
-    const tiposUnicos = [
-        ...new Set(tipo.map((item) => item.tipo_violencia.toLowerCase())),
-    ];
-    //Filtramos Data por Semestre Enero-Junio / Julio-Diciembre
-    const fechaActual = new Date();
-    const anioActual = fechaActual.getFullYear().toString();
-    const mesActual = fechaActual.getMonth() + 1;
-    const semestreActual = mesActual >= 7 ? "2" : "1";
+    // 1) Semestre/año como número
+    const now = new Date();
+    const anioActual = now.getFullYear();
+    const semestreActual = now.getMonth() + 1 >= 7 ? 2 : 1;
 
-    // Crear el chartConfig dinámicamente
+    // 2) tipos únicos (keys en minúsculas)
+    const tiposUnicos = [...new Set((tipo ?? []).map((i) => String(i.tipo_violencia).toLowerCase().trim()))];
+
+    // 3) chartConfig consistente con keys en minúsculas
     const chartConfig: Record<string, { label: string; color?: string }> = {
-        total: {
-            label: "Total quejas",
-        },
+        total: { label: 'Total quejas' },
     };
-
-    tiposUnicos.forEach((tipo, idx) => {
-        const label = tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase();
-        chartConfig[tipo] = {
-            label,
-            color: colorPalette[idx % colorPalette.length], // ciclo de colores
-        };
+    tiposUnicos.forEach((t, idx) => {
+        const label = t.charAt(0).toUpperCase() + t.slice(1);
+        chartConfig[t] = { label, color: colorPalette[idx % colorPalette.length] };
     });
 
-    const dataFiltrada = tipo.filter(
-        (item) =>
-            item.anio === anioActual && item.semestre === semestreActual
-    );
+    // 4) Filtra haciendo coerción segura
+    const dataFiltrada = (tipo ?? []).filter((i) => Number(i.anio) === anioActual && Number(i.semestre) === semestreActual);
+
+    // 5) Dataset final
     const chartData = dataFiltrada.map(({ tipo_violencia, total }, idx) => ({
-        tipo_violencia,
+        tipo_violencia: String(tipo_violencia).trim(),
         total: Number(total),
-        fill: colorPalette[idx % colorPalette.length], // <-- así recorres la paleta cíclicamente
+        fill: colorPalette[idx % colorPalette.length],
     }));
-    const maxIndex = chartData.reduce(
-        (maxIdx, item, idx, arr) =>
-            item.total > arr[maxIdx].total ? idx : maxIdx,
-        0
-    );
+
+    const maxIndex = chartData.reduce((maxIdx, item, idx, arr) => (item.total > arr[maxIdx].total ? idx : maxIdx), 0);
 
     return (
         <div className="w-full">
             <Card>
                 <CardHeader>
                     <CardTitle>Tipos de Violencia</CardTitle>
-                    {semestreActual === "1" ? (
+                    {semestreActual === 1 ? (
                         <CardDescription>Enero - Junio {anioActual}</CardDescription>
                     ) : (
                         <CardDescription>Julio - Diciembre {anioActual}</CardDescription>
@@ -98,14 +76,9 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
                                 tickLine={false}
                                 tickMargin={10}
                                 axisLine={false}
-                                tickFormatter={(value) =>
-                                    chartConfig[value as keyof typeof chartConfig]?.label
-                                }
+                                tickFormatter={(value) => chartConfig[value as keyof typeof chartConfig]?.label}
                             />
-                            <ChartTooltip
-                                cursor={false}
-                                content={<ChartTooltipContent hideLabel />}
-                            />
+                            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                             <Bar
                                 dataKey="total"
                                 strokeWidth={2}
@@ -120,7 +93,7 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
                                             strokeDasharray={4}
                                             strokeDashoffset={4}
                                         />
-                                    )
+                                    );
                                 }}
                             />
                         </BarChart>
@@ -130,11 +103,9 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
                     <div className="flex gap-2 leading-none font-medium">
                         Revisa los datos del {semestreActual} semestre del {anioActual}.
                     </div>
-                    <div className="text-muted-foreground leading-none">
-                        Mostrando los tipo de violencia en las quejas del semestre actual.
-                    </div>
+                    <div className="leading-none text-muted-foreground">Mostrando los tipo de violencia en las quejas del semestre actual.</div>
                 </CardFooter>
             </Card>
         </div>
-    )
+    );
 }

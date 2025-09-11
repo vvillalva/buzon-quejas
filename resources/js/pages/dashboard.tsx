@@ -22,6 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Dashboard({ buzon = [], totalQuejasTipo }: { buzon: []; totalQuejasTipo: [] }) {
     const { has, hasAny  } = useCan();
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />

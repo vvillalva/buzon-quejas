@@ -13,13 +13,12 @@ class QuejaController extends Controller
      */
     public function index()
     {
+        // ---- GRAFICA DE TOTAL DE TIPOS DE QUEJAS ----
         $anioActual = now()->year;
-        $porMesTipo = Queja::selectRaw("FORMAT(created_at, 'yyyy-MM-dd') as fecha, tipo_violencia, COUNT(*) as total")
+
+        $porMesTipo = Queja::selectRaw("DATE(created_at) as fecha, tipo_violencia, COUNT(*) as total")
             ->whereYear('created_at', $anioActual)
-            ->groupBy(
-                \DB::raw("FORMAT(created_at, 'yyyy-MM-dd')"),
-                'tipo_violencia'
-            )
+            ->groupBy(\DB::raw("DATE(created_at)"), 'tipo_violencia')
             ->orderBy('fecha')
             ->get();
         // Primero, obten todos los tipos de violencia únicos

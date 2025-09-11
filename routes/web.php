@@ -19,8 +19,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Quejas Routes
     Route::get('quejas', [QuejaController::class, 'quejasIndex'])->name('quejas');
     Route::get('quejas/{queja}/detalles', [QuejaController::class, 'show'])->name('ver-queja');
-
-
     Route::get('quejas/nueva-queja', [QuejaController::class, 'create'])->name('queja.create')
                 ->middleware('permission:crear.quejas');
     Route::post('quejas/nueva-queja', [QuejaController::class, 'storeIndex'])->name('queja.store');
