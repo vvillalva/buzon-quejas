@@ -5,7 +5,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
 
-const appName = 'Buzon de Quejas';
+const appName = 'Buzon Violeta';
 
 createInertiaApp({
     title: (title) => title ? `${title} - ${appName}` : appName,

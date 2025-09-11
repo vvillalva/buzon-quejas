@@ -30,7 +30,7 @@
             }
         </style>
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title inertia>{{ config('app.name', 'Buzon Violeta') }}</title>
         <link rel="icon" href="/Logo-UIG.svg" type="image/svg+xml">
         @routes
         @viteReactRefresh
