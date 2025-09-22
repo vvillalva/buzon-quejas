@@ -379,16 +379,24 @@ export const columnasOpciones: ColumnDef<ColumnaOpcion>[] = [
     },
     {
         accessorKey: 'estatus',
-        header: 'Estatus de Opción',
+        header: ({ column }) => {
+            return (
+                <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Estatus de Opción
+                    <ArrowUpDown />
+                    
+                </Button>
+            );
+        },
         cell: ({ row }) => {
-            const estatus = row.original.estatus;
+            const estatus = Number(row.original.estatus);
 
             // Puedes usar colores diferentes para cada estatus si quieres
             let icon = null;
             let text = null;
             let badgeClass = 'text-muted-foreground px-1.5';
 
-            if (estatus === '1') {
+            if (estatus === 1) {
                 icon = <CircleCheck className="fill-green-600 text-green-300 dark:fill-green-700" />;
                 text = <p className="text-green-700 dark:text-green-500">Activado</p>;
                 badgeClass += ' border-green-600 bg-status-card'; // Puedes agregar más clases

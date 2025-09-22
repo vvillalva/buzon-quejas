@@ -25,10 +25,23 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
+    $validated = $request->validate(
+        [
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
-        ]);
+        ],
+        [
+            // Mensajes personalizados
+            'current_password.current_password' => 'La contraseña actual no es correcta.',
+            'current_password.required' => 'Debes ingresar tu contraseña actual.',
+            
+            'password.required' => 'Debes ingresar una nueva contraseña.',
+            'password.confirmed' => 'La confirmación de la contraseña no coincide.',
+            'password.min' => 'La nueva contraseña debe tener al menos 8 caracteres.',
+            // Si usas reglas extra de Password::defaults() (mayúsculas, números, símbolos, etc.)
+            'password' => 'La nueva contraseña no cumple con los requisitos de seguridad.',
+        ]
+    );
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),

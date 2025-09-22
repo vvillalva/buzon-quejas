@@ -22,7 +22,6 @@ class ProfileUpdateRequest extends FormRequest
             'correo' => [
                 'required',
                 'string',
-                'lowercase',
                 'email',
                 'max:255',
                 Rule::unique(User::class, 'correo')->ignore($this->user()->id), // 👈 columna correcta

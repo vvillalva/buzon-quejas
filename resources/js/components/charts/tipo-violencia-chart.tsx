@@ -12,6 +12,9 @@ const colorPalette = [
     'var(--chart-5)',
     'var(--chart-6)',
     'var(--chart-7)',
+    'var(--chart-8)',
+    'var(--chart-9)',
+    'var(--chart-10)',
     // Agrega más colores si necesitas
 ];
 
@@ -39,7 +42,12 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
         total: { label: 'Total quejas' },
     };
     tiposUnicos.forEach((t, idx) => {
-        const label = t.charAt(0).toUpperCase() + t.slice(1);
+        // Tomamos la primera palabra dividiendo por espacio
+        const firstWord = t.split(' ')[0];
+
+        // Capitalizamos solo esa palabra
+        const label = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
+
         chartConfig[t] = { label, color: colorPalette[idx % colorPalette.length] };
     });
 
@@ -71,7 +79,10 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
                         <BarChart accessibilityLayer data={chartData}>
                             <CartesianGrid vertical={false} />
                             <XAxis
-                                className="text-[10px]"
+                                className="truncate"
+                                tick={{ fontSize: 8 }}
+                                type='category'
+                                padding={'gap'}
                                 dataKey="tipo_violencia"
                                 tickLine={false}
                                 tickMargin={10}

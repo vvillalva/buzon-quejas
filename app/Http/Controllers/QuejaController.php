@@ -97,13 +97,17 @@ class QuejaController extends Controller
         if ($request->filled('tipo_violencia')) {
             $tipo = $request->input('tipo_violencia');
 
-            // Quitar acentos
+            // Quitar acentos (ej: "Política" -> "Politica")
             $tipoNormalizado = iconv('UTF-8', 'ASCII//TRANSLIT', $tipo);
+
             // Convertir a minúsculas
             $tipoNormalizado = mb_strtolower($tipoNormalizado);
 
-            // Quitar cualquier caracter raro que deje iconv (opcional)
-            $tipoNormalizado = preg_replace('/[^a-z0-9]/', '', $tipoNormalizado);
+            // Quitar caracteres raros pero respetar espacios
+            $tipoNormalizado = preg_replace('/[^a-z0-9 ]/', '', $tipoNormalizado);
+
+            // OJO: no colapsamos espacios múltiples, solo quitamos al inicio y fin
+            $tipoNormalizado = trim($tipoNormalizado);
 
             $request->merge(['tipo_violencia' => $tipoNormalizado]);
         }

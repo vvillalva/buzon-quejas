@@ -16,7 +16,7 @@ import type { BreadcrumbItem } from '@/types';
 interface Opcion {
     id: number;
     nombre: string;
-    estatus: string;
+    estatus: number;
     created_at?: string
     updated_at?: string
 }
@@ -43,7 +43,7 @@ export default function EditarOpcion({ opcion , resourceName = "" }: { opcion: O
     ];
     const { data, setData, errors, put } = useForm({
         nombre: opcion.nombre || "",
-        estatus: opcion.estatus || "0",
+        estatus: opcion.estatus || 0,
     })
     const editOption: FormEventHandler = (e) => {
         e.preventDefault();
@@ -90,8 +90,8 @@ export default function EditarOpcion({ opcion , resourceName = "" }: { opcion: O
                             <div className="flex flex-col gap-4 w-full lg:w-[405px]">
                                 <div className="flex flex-col gap-2 justify-center items-center">
                                     <Switch
-                                        checked={data.estatus === "1"} 
-                                        onCheckedChange={(checked) => setData("estatus", checked ? "1" : "0")}
+                                        checked={data.estatus === 1}
+                                        onCheckedChange={(checked) => setData("estatus", checked ? 1 : 0)}
                                     />
                                     {errors.estatus
                                         &&

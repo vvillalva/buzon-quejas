@@ -40,7 +40,6 @@ export default function FormularioBuzon({ tipoViolencia }:FormularioProps) {
       },
     });
   };
-
   return (
     <div className="w-full ">
       <form onSubmit={createQueja} className="flex flex-col gap-4 ">

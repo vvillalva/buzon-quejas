@@ -13,27 +13,24 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { useState } from "react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useState } from 'react';
 
-export const description = "Grafica del total de quejas en el año."
+export const description = 'Grafica del total de quejas en el año.';
 //*Van en MAYUS por que asi lo regresa el Backend
 //* console.log(data)
 const colorClasses = [
-  "var(--chart-1)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--chart-5)",
-  "var(--chart-6)",
-  "var(--chart-7)",
-  // ...agrega más si esperas más tipos
+    'var(--chart-1)',
+    'var(--chart-2)',
+    'var(--chart-3)',
+    'var(--chart-4)',
+    'var(--chart-5)',
+    'var(--chart-6)',
+    'var(--chart-7)',
+    'var(--chart-8)',
+    'var(--chart-9)',
+    'var(--chart-10)',
+    // ...agrega más si esperas más tipos
 ];
 
 type ChartConfigItem = {
@@ -47,18 +44,17 @@ type ChartConfig = {
 
 export default function QuejasChart({ data = [] }) {
     // Extrae todas las keys, quitando 'date'
-    const tipoKeys = Object.keys(data[0]).filter(
-        key => key !== "date"
-    );
+    const tipoKeys = Object.keys(data[0]).filter((key) => key !== 'date');
 
     // Ahora genera el chartConfig dinámico
     const chartConfig: ChartConfig = {} satisfies ChartConfig;
 
     tipoKeys.forEach((key, idx) => {
-        // Pone la primera letra en mayúscula y el resto igual (por si son todo minúsculas)
-        const label =
-            key.charAt(0).toUpperCase() +
-            key.slice(1).toLowerCase();
+        // Tomamos la primera palabra dividiendo por espacio
+        const firstWord = key.split(' ')[0];
+
+        // Capitalizamos solo esa palabra
+        const label = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
 
         chartConfig[key] = {
             label,
@@ -66,12 +62,10 @@ export default function QuejasChart({ data = [] }) {
         };
     });
 
-    const [timeRange, setTimeRange] = useState("90d")
+    const [timeRange, setTimeRange] = useState('90d');
 
     // Encuentra la fecha más reciente en tu data
-    const lastDate = data.length
-        ? new Date(data[data.length - 1].date)
-        : new Date();
+    const lastDate = data.length ? new Date(data[data.length - 1].date) : new Date();
 
     const filteredData = data.filter((item) => {
         const date = new Date(item.date)
