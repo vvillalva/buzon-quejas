@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Bitacora;
 
 class ProfileController extends Controller
 {
@@ -39,6 +40,14 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Editó su perfil',
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         return to_route('profile.edit');
     }
 
@@ -53,6 +62,14 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Elimino su cuenta',
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+        
         Auth::logout();
 
         $user->delete();

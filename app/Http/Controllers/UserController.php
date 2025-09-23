@@ -7,6 +7,8 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -58,6 +60,14 @@ class UserController extends Controller
 
         $user->syncRoles([$request->rol]);
 
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Creó un nuevo usuario: '.$user->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         return to_route('usuarios.index');
     }
 
@@ -108,6 +118,13 @@ class UserController extends Controller
 
         $user->syncRoles([$request->rol]);
 
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Editó un usuario: '.$user->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
 
         return to_route("usuarios.index");
 
@@ -118,7 +135,18 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = User::find($id);
+        
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Eliminó un usuario: '.$user->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         User::destroy($id);
+
         return to_route("usuarios.index");
     }
 }

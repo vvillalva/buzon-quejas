@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Option;
 use App\Models\Catalogo;
 use Inertia\Inertia;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class OptionController extends Controller
 {
@@ -68,9 +70,17 @@ class OptionController extends Controller
         );
 
 
-        Option::create(
+        $option = Option::create(
             $request->only(["nombre", "estatus", "catalogo_id"])
         );
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Creó una nueva opción: '.$option->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
 
         return to_route($routeName);
     }
@@ -119,6 +129,14 @@ class OptionController extends Controller
 
         $option->save();
 
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Editó una opción: '.$option->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         return to_route("{$baseRoute}.index");
     }
 
@@ -129,6 +147,16 @@ class OptionController extends Controller
     {
         $routeName = $request->route()->getName(); // p.ej. "tipo-de-violencia" o "tipo-de-violencia.edit"
         $baseRoute = explode('.', $routeName)[0]; // toma sólo "tipo-de-violencia"
+        $option = Option::find($id);
+         
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Eliminó una opción: '.$option->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         Option::destroy($id);
 
         return to_route("{$baseRoute}.index");

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
@@ -45,6 +47,14 @@ class PasswordController extends Controller
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
+        ]);
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Editó su contraseña',
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
         ]);
 
         return back();

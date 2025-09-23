@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Catalogo;
 use Inertia\Inertia;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class CatalogoController extends Controller
 {
@@ -40,9 +42,17 @@ class CatalogoController extends Controller
             ]
         );
 
-        Catalogo::create(
+        $catalogo = Catalogo::create(
             $request->only(["nombre"])
         );
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Creó un nuevo catalogo: '.$catalogo->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
 
         return to_route('catalogos.index');
     }
@@ -86,6 +96,14 @@ class CatalogoController extends Controller
 
         $catalogo->save();
 
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Editó un catalogo: '.$catalogo->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         return to_route('catalogos.index');
     }
 
@@ -94,6 +112,16 @@ class CatalogoController extends Controller
      */
     public function destroy(string $id)
     {
+        $catalogo = Catalogo::find($id);
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Eliminó un catalogo: '.$catalogo->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         Catalogo::destroy($id);
 
         return to_route("catalogos.index");

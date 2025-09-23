@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Option;
 use App\Models\Queja;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class QuejaController extends Controller
 {
@@ -179,7 +181,7 @@ class QuejaController extends Controller
         $folio = $this->generarFolio();
 
         // Guardar la queja incluyendo el folio
-        Queja::create(
+        $queja = Queja::create(
             array_merge(
                 $request->only([
                     "nombre",
@@ -192,6 +194,14 @@ class QuejaController extends Controller
                 ["folio" => $folio]
             )
         );
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Genero un queja manualmente: '.$queja->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
 
         return redirect()->route('quejas')->with([
             'success' => 'Haz realizado tu queja con éxito.',
@@ -247,6 +257,14 @@ class QuejaController extends Controller
         $queja->estatus = $request->input('estatus');
 
         $queja->save();
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Editó una queja: '.$queja->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
 
         return to_route("quejas");
     }

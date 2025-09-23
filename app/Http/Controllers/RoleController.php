@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -42,6 +44,14 @@ class RoleController extends Controller
         $role = Role::create(["name" => $request->name]);
 
         $role->syncPermissions($request->permissions);
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Creó un nuevo rol: '.$role->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
 
         return to_route("roles.index");
     }
@@ -84,6 +94,15 @@ class RoleController extends Controller
 
         $role->syncPermissions($request->permissions);
 
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Editó un rol: '.$role->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
+
         return to_route("roles.index");
     }
 
@@ -92,6 +111,16 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
+        $role = Role::find($id);
+
+        Bitacora::create([
+            'fk_usuario'     => Auth::id(),
+            'operacion'      => 'Eliminó un rol: '.$role->id,
+            'fecha_operacion'=> now(),
+            'ip'             => request()->ip(),
+            'pc'             => gethostname(),
+        ]);
+
         Role::destroy($id);
 
         return to_route("roles.index");
