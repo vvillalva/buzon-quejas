@@ -18,11 +18,11 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/password',
         icon: KeyRound,
     },
-    {
-        title: 'Apariencia',
-        href: '/settings/appearance',
-        icon: SunMoon,
-    },
+    // {
+    //     title: 'Apariencia',
+    //     href: '/settings/appearance',
+    //     icon: SunMoon,
+    // },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {

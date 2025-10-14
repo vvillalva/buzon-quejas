@@ -53,7 +53,7 @@ export function NavOpciones({ items = [], titulo }: { items: NavItem[]; titulo: 
     const visible = filterNav(items);
     return (
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel>{titulo}</SidebarGroupLabel>
+            <SidebarGroupLabel className='text-primary-600'>{titulo}</SidebarGroupLabel>
             <SidebarMenu>
                 {visible.map((item) =>
                     item.subitems && item.subitems.length > 0 ? (

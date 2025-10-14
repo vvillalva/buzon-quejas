@@ -24,9 +24,9 @@ export default function Dashboard({ buzon = [], totalQuejasTipo }: { buzon: []; 
     const { has, hasAny  } = useCan();
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout breadcrumbs={breadcrumbs} >
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-8">
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-8">
                 {hasAny(['ver.quejas', 'ver.estadisticas']) ? (
                     <>
                         <Encabezados title="Dashboard" subtitle="Revisa las quejas que se han genero y los datos estadisticos historicos." />

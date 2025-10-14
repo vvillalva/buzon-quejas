@@ -54,7 +54,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
 
     return (
         <SidebarGroup>
-            <SidebarGroupLabel>Acciones</SidebarGroupLabel>
+            <SidebarGroupLabel className='text-primary-600'>Acciones</SidebarGroupLabel>
             <SidebarMenu>
                 {visible.map((item) =>
                     item.subitems && item.subitems.length > 0 ? (
