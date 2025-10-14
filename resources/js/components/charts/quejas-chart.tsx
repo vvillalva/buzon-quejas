@@ -18,6 +18,21 @@ const colorClasses = [
     'var(--chart-8)',
     'var(--chart-9)',
     'var(--chart-10)',
+    'var(--chart-11)',
+    'var(--chart-12)',
+    'var(--chart-13)',
+    'var(--chart-14)',
+    'var(--chart-15)',
+    'var(--chart-16)',
+    'var(--chart-17)',
+    'var(--chart-18)',
+    'var(--chart-19)',
+    'var(--chart-20)',
+    'var(--chart-21)',
+    'var(--chart-22)',
+    'var(--chart-23)',
+    'var(--chart-24)',
+    'var(--chart-25)',
     // ...agrega más si esperas más tipos
 ];
 
@@ -39,7 +54,7 @@ export default function QuejasChart({ data = [] }) {
             <Card className="pt-0">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
-                        <CardTitle>Quejas Generadas</CardTitle>
+                        <CardTitle className='text-primary-600'>Quejas Generadas</CardTitle>
                         <CardDescription>No hay quejas generadas aún.</CardDescription>
                     </div>
                 </CardHeader>
@@ -91,14 +106,14 @@ export default function QuejasChart({ data = [] }) {
         <Card className="pt-0">
             <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                 <div className="grid flex-1 gap-1">
-                    <CardTitle>Quejas Generadas</CardTitle>
+                    <CardTitle className='text-primary-600'>Quejas Generadas</CardTitle>
                     <CardDescription>Mostrando el total de quejas generadas en los ultimos 3 meses.</CardDescription>
                 </div>
                 <Select value={timeRange} onValueChange={setTimeRange}>
-                    <SelectTrigger className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex" aria-label="Select a value">
-                        <SelectValue placeholder="Last 3 months" />
+                    <SelectTrigger className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex " aria-label="Select a value">
+                        <SelectValue placeholder="Ultimos 3 meses" className='text-white  ' />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl">
+                    <SelectContent className="rounded-xl text-primary-600">
                         <SelectItem value="90d" className="rounded-lg">
                             Ultimos 3 meses
                         </SelectItem>

@@ -54,7 +54,7 @@ export default function PersonasChart({ dataAnonimas, dataIdetificadas }: Person
     return (
         <Card className="flex flex-col justify-between gap-1 min-w-[440px]">
             <CardHeader className="items-center pb-0">
-                <CardTitle>Quejas Anonimas</CardTitle>
+                <CardTitle className='text-primary-600'>Quejas Anonimas</CardTitle>
                 {semestreActual === "1" ? (
                     <CardDescription>Enero - Junio {anioActual}</CardDescription>
                 ) : (

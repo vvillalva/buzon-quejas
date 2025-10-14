@@ -41,15 +41,29 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
     const chartConfig: Record<string, { label: string; color?: string }> = {
         total: { label: 'Total quejas' },
     };
+
     tiposUnicos.forEach((t, idx) => {
-        // Tomamos la primera palabra dividiendo por espacio
-        const firstWord = t.split(' ')[0];
-
-        // Capitalizamos solo esa palabra
-        const label = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
-
-        chartConfig[t] = { label, color: colorPalette[idx % colorPalette.length] };
+        const label = t
+            .split(' ')
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+            .join(' ');
+        chartConfig[t] = {
+            label,
+            color: colorPalette[idx % colorPalette.length],
+        };
     });
+    // const chartConfig: Record<string, { label: string; color?: string }> = {
+    //     total: { label: 'Total quejas' },
+    // };
+    // tiposUnicos.forEach((t, idx) => {
+    //     // Tomamos la primera palabra dividiendo por espacio
+    //     const firstWord = t.split(' ')[0];
+
+    //     // Capitalizamos solo esa palabra
+    //     const label = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
+
+    //     chartConfig[t] = { label, color: colorPalette[idx % colorPalette.length] };
+    // });
 
     // 4) Filtra haciendo coerción segura
     const dataFiltrada = (tipo ?? []).filter((i) => Number(i.anio) === anioActual && Number(i.semestre) === semestreActual);
@@ -67,7 +81,7 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
         <div className="w-full">
             <Card>
                 <CardHeader>
-                    <CardTitle>Tipos de Violencia</CardTitle>
+                    <CardTitle className="text-primary-600">Tipos de Violencia</CardTitle>
                     {semestreActual === 1 ? (
                         <CardDescription>Enero - Junio {anioActual}</CardDescription>
                     ) : (
@@ -80,8 +94,8 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
                             <CartesianGrid vertical={false} />
                             <XAxis
                                 className="truncate"
-                                tick={{ fontSize: 8 }}
-                                type='category'
+                                tick={false}
+                                type="category"
                                 padding={'gap'}
                                 dataKey="tipo_violencia"
                                 tickLine={false}
@@ -89,7 +103,19 @@ export function TipoViolenciaChart({ tipo }: ChartTipoDeViolenciaProps) {
                                 axisLine={false}
                                 tickFormatter={(value) => chartConfig[value as keyof typeof chartConfig]?.label}
                             />
-                            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                            <ChartTooltip
+                                cursor={false}
+                                content={({ payload }) => {
+                                    if (!payload || payload.length === 0) return null;
+                                    const data = payload[0].payload;
+                                    const label = chartConfig[data.tipo_violencia.toLowerCase()]?.label || data.tipo_violencia;
+                                    return (
+                                        <div className="rounded bg-white p-2 text-xs shadow flex flex-row gap-2">
+                                            <p className='font-semibold text-primary-600'>{label}</p><p>Total: {data.total}</p>
+                                        </div>
+                                    );
+                                }}
+                            />
                             <Bar
                                 dataKey="total"
                                 strokeWidth={2}

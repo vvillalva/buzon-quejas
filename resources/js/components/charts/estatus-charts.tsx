@@ -49,7 +49,7 @@ export function EstatusChart({ data }: EstatusChartProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Estatus de las Quejas</CardTitle>
+                <CardTitle className='text-primary-600'>Estatus de las Quejas</CardTitle>
                 <CardDescription>Enero - Diciembre {anioActual}</CardDescription>
             </CardHeader>
             <CardContent>
